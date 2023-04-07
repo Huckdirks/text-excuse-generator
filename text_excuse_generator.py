@@ -78,8 +78,25 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
     elif send_text:
         to_phone_number = os.getenv(f"{recipient.upper()}_PHONE_NUMBER")
         if to_phone_number == None:
-            print(f"Error: No phone number found for recipient \'{recipient}\' in .env file!")
-            exit()
+            print(f"\nError: No phone number found for recipient \'{recipient}\' in .env file!")
+            if len(argv) == 1:  # If in user input mode
+                ADD_RECIPIENT_QUESTION = input("Do you want to add this recipient to the .env file? (y/n): ")
+                if ADD_RECIPIENT_QUESTION.lower() == "y" or ADD_RECIPIENT_QUESTION.lower() == "yes":
+                    new_recipient_phone_number = input("Enter the phone number of the recipient: ")
+                    if phonenumbers.is_valid_number(phonenumbers.parse(new_recipient_phone_number)):
+                        lines = []
+                        with open(f"{ENV_NAME}.env", "r") as file:
+                            lines = file.readlines()
+                        index = lines.index("# Phone Numbers to text\n")
+                        lines.insert(index + 1, f"{recipient.upper()}_PHONE_NUMBER = \"{new_recipient_phone_number}\"\n")
+                        with open(f"{ENV_NAME}.env", "w") as file:
+                            file.writelines(lines)
+                            print(f"Added recipient \'{recipient}\' with phone number \'{new_recipient_phone_number}\' to .env file!")
+                    else:
+                        print("Error: Invalid phone number!")
+                        exit()
+            else:
+                exit()
 
     CHATGPT_CONTEXT = f"Write a text message to {recipient} explaining that you {problem} because {excuse}. Also start the message by stating this is {user}"
     print("\nCreating message...\n")
