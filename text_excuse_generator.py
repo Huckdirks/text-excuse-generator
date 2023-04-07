@@ -6,39 +6,37 @@ import os
 from os.path import dirname, join
 from sys import argv
 
-def main():
-    USER = ""
-    RECIPIENT = ""
-    PROBLEM = ""
-    EXCUSE = ""
+def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = ""):
     ENV_NAME = "personal_info"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
 
-    # If no command line arguments are given, ask for user input
-    if len(argv) == 1:
-        USER = input("Enter who is sending the text: ")
-        RECIPIENT = input("Enter who you want to text: ")
-        PROBLEM = input("Enter the fake problem you are having: ")
-        EXCUSE = input("Enter the excuse you want to use: ")
+    # If no parameters are given
+    if not USER or RECIPIENT or PROBLEM or EXCUSE:
+        # If no command line arguments are given, ask for user input
+        if len(argv) == 1:
+            USER = input("Enter who is sending the text: ")
+            RECIPIENT = input("Enter who you want to text: ")
+            PROBLEM = input("Enter the fake problem you are having: ")
+            EXCUSE = input("Enter the excuse you want to use: ")
+        
+        # If command line arguments are given, use them
+        elif len(argv) == 5:
+            # Load command line arguments
+            USER = argv[1]
+            RECIPIENT = argv[2]
+            PROBLEM = argv[3]
+            EXCUSE = argv[4]
 
-    # If command line arguments are given, use them
-    elif len(argv) == 5:
-        # Load command line arguments
-        USER = argv[1]
-        RECIPIENT = argv[2]
-        PROBLEM = argv[3]
-        EXCUSE = argv[4]
-
-    # Else, give info on how to use the program
-    else:
-        print("\nUsage: python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse]")
-        print("\tsender: The person who is sending the text")
-        print("\trecipient: The person you want to text")
-        print("\tproblem: The \"problem\" you are having")
-        print("\texcuse: The excuse you want to use")
-        print("Or just run the program with no arguments to be prompted for input")
-        print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
-        print("The prompt sent to ChatGPT is: \"Write a text message to {RECIPIENT} explaining that you {PROBLEM} because {EXCUSE}.\"\n")
-        exit()
+        # Else, give info on how to use the program
+        else:
+            print("\nUsage: python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse]")
+            print("\tsender: The person who is sending the text")
+            print("\trecipient: The person you want to text")
+            print("\tproblem: The \"problem\" you are having")
+            print("\texcuse: The excuse you want to use")
+            print("Or just run the program with no arguments to be prompted for input")
+            print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
+            print("The prompt sent to ChatGPT is: \"Write a text message to {RECIPIENT} explaining that you {PROBLEM} because {EXCUSE}.\"\n")
+            exit()
 
     # Load environment variables
     ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
@@ -77,4 +75,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    generate_excuse()
