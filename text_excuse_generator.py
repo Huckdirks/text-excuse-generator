@@ -9,46 +9,49 @@ from sys import argv
 
 # Function to generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
 # If you want to send a text by passing in parameters, just pass in the first 4. If you want to add a person, set the first 4 to '' and only put actual values for the last 2
-def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RECIPIENT = "", NEW_RECIPIENT_PHONE_NUMBER = "", SEND_TEXT = False):
+def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_recipient = "", new_recipient_phone_number = "", send_text = False):
     ENV_NAME = "personal_info"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
 
     # If no parameters are given
-    if not USER or RECIPIENT or PROBLEM or EXCUSE:
+    if not user or recipient or problem or excuse:
+        # If command line arguments are given, use them
+        if len(argv) == 5 or len(argv) == 6:
+            # Load command line arguments
+            user = argv[1]
+            recipient = argv[2]
+            problem = argv[3]
+            excuse = argv[4]
+            if len(argv) == 6 and (argv[5].lower() == "-s" or argv[5].lower() == "--send"):
+                send_text = True
+
         # If no arguments are given, ask for user input
-        if len(argv) == 1:
-            USER = input("Enter who is sending the text: ")
-            RECIPIENT = input("Enter who you want to text: ")
-            PROBLEM = input("Enter the fake problem you are having: ")
-            EXCUSE = input("Enter the excuse you want to use: ")
+        elif len(argv) == 1:
+            user = input("Enter who is sending the text: ")
+            recipient = input("Enter who you want to text: ")
+            problem = input("Enter the fake problem you are having: ")
+            excuse = input("Enter the excuse you want to use: ")
+            send_text_question = input("Do you want to send the text? (y/n): ")
+            if send_text_question.lower() == "y" or send_text_question.lower() == "yes":
+                send_text = True
 
         # If the -a or --add flag is given with correct parameters, or if correct parameters passed in, add a new user to the .env file
-        elif (NEW_RECIPIENT and NEW_RECIPIENT_PHONE_NUMBER) or (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add") and phonenumbers.is_valid_number(phonenumbers.parse(argv[3]))):
+        elif (new_recipient and new_recipient_phone_number) or (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add") and phonenumbers.is_valid_number(phonenumbers.parse(argv[3]))):
             lines = []
-            if NEW_RECIPIENT == '' or NEW_RECIPIENT_PHONE_NUMBER == '':
-                NEW_RECIPIENT = argv[2]
-                NEW_RECIPIENT_PHONE_NUMBER = argv[3]
+            if new_recipient == '' or new_recipient_phone_number == '':
+                new_recipient = argv[2]
+                new_recipient_phone_number = argv[3]
             # Add a new user to the .env file
             with open(f"{ENV_NAME}.env", "r") as file:
                 lines = file.readlines()
-            if f"{NEW_RECIPIENT.upper()}_PHONE_NUMBER = \"{NEW_RECIPIENT_PHONE_NUMBER}\"\n" in lines:
-                    print(f"Error: Recipient \'{NEW_RECIPIENT}\' already exists in .env file!")
+            if f"{new_recipient.upper()}_PHONE_NUMBER = \"{new_recipient_phone_number}\"\n" in lines:
+                    print(f"Error: Recipient \'{new_recipient}\' already exists in .env file!")
                     exit()
             index = lines.index("# Phone Numbers to text\n")
-            lines.insert(index + 1, f"{NEW_RECIPIENT.upper()}_PHONE_NUMBER = \"{NEW_RECIPIENT_PHONE_NUMBER}\"\n")
+            lines.insert(index + 1, f"{new_recipient.upper()}_PHONE_NUMBER = \"{new_recipient_phone_number}\"\n")
             with open(f"{ENV_NAME}.env", "w") as file:
                 file.writelines(lines)
-                print(f"Added recipient \'{NEW_RECIPIENT}\' with phone number \'{NEW_RECIPIENT_PHONE_NUMBER}\' to .env file!")
+                print(f"Added recipient \'{new_recipient}\' with phone number \'{new_recipient_phone_number}\' to .env file!")
             exit()
-        
-        # If command line arguments are given, use them
-        elif len(argv) == 5 or len(argv) == 6:
-            # Load command line arguments
-            USER = argv[1]
-            RECIPIENT = argv[2]
-            PROBLEM = argv[3]
-            EXCUSE = argv[4]
-            if (len(argv) == 6) and (argv[5].lower() == "-s" or argv[5].lower() == "--send"):
-                SEND_TEXT = True
 
         # Else, give info on how to use the program
         else:
@@ -60,25 +63,25 @@ def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RE
             print("\t--send_flag: If you want to send the text, add -s or --send. If you don't want to send the text, don't add this flag\n")
             print("Or just run the program with no arguments to be prompted for input")
             print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
-            print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] {RECIPIENT} {PHONE_NUMBER}\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+1 555 555 5555\"\n")
-            print("The prompt sent to ChatGPT is: \"Write a text message to {RECIPIENT} explaining that you {PROBLEM} because {EXCUSE}.\"\n")
+            print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] [recipient] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+1 555 555 5555\"\n")
+            print("The prompt sent to ChatGPT is: \"Write a text message to {recipient} explaining that you {problem} because {excuse}.\"\n")
             exit()
 
     # Load environment variables
     ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
     load_dotenv(ENV_PATH)
 
-    TO_PHONE_NUMBER = ""
+    to_phone_number = ""
     # Check if recipient is a phone number or a saved person
-    if (RECIPIENT[0] == '+' and RECIPIENT[1:].isnumeric()) and phonenumbers.is_valid_number(phonenumbers.parse(RECIPIENT)):
-        TO_PHONE_NUMBER = RECIPIENT
+    if (recipient[0] == '+' and recipient[1:].isnumeric()) and phonenumbers.is_valid_number(phonenumbers.parse(recipient)):
+        to_phone_number = recipient
     else:
-        TO_PHONE_NUMBER = os.getenv(f"{RECIPIENT.upper()}_PHONE_NUMBER")
-        if TO_PHONE_NUMBER == None:
-            print(f"Error: No phone number found for user \'{RECIPIENT}\' in .env file!")
+        to_phone_number = os.getenv(f"{recipient.upper()}_PHONE_NUMBER")
+        if to_phone_number == None:
+            print(f"Error: No phone number found for user \'{recipient}\' in .env file!")
             exit()
 
-    CHATGPT_CONTEXT = f"Write a text message to {RECIPIENT} explaining that you {PROBLEM} because {EXCUSE}. Also start the message by stating this is {USER}"
+    CHATGPT_CONTEXT = f"Write a text message to {recipient} explaining that you {problem} because {excuse}. Also start the message by stating this is {user}"
     print("\nCreating message...\n")
 
     # OpenAI API
@@ -91,7 +94,7 @@ def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RE
     AI_RESPONSE = AI_QUERY.choices[0].message.content
     print(f"Chat GPT's Response:\n{AI_RESPONSE}\n")
 
-    if SEND_TEXT:
+    if send_text:
         TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
         TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
         TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
@@ -101,12 +104,13 @@ def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RE
         print("Sending text...\n")
         client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
         client.messages.create(
-            to = TO_PHONE_NUMBER,
+            to = to_phone_number,
             from_ = TWILIO_PHONE_NUMBER,
             body = AI_RESPONSE
         )
+        print("Text sent!\n")
     return AI_RESPONSE
 
 
 if __name__ == "__main__":
-    generate_excuse("", "", "", "", "", "", False)
+    generate_excuse()
