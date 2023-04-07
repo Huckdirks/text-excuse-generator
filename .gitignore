@@ -1,0 +1,7 @@
+# Directories
+source/__pycache__
+.vscode/
+
+# Files
+.DS_Store
+personal_info.env
