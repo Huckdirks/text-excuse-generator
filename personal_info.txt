@@ -1,0 +1,13 @@
+# MAKE SURE TO REPLACE .txt with .env
+
+# Twilio
+TWILIO_ACCOUNT_SID = ""
+TWILIO_AUTH_TOKEN = ""
+TWILIO_PHONE_NUMBER = ""
+
+# OpenAI
+OPENAI_API_KEY = ""
+
+# Phone Numbers to text
+ME_PHONE_NUMBER = ""
+MY_PHONE_NUMBER = ""
