@@ -78,7 +78,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
     elif send_text:
         to_phone_number = os.getenv(f"{recipient.upper()}_PHONE_NUMBER")
         if to_phone_number == None:
-            print(f"Error: No phone number found for user \'{recipient}\' in .env file!")
+            print(f"Error: No phone number found for recipient \'{recipient}\' in .env file!")
             exit()
 
     CHATGPT_CONTEXT = f"Write a text message to {recipient} explaining that you {problem} because {excuse}. Also start the message by stating this is {user}"
