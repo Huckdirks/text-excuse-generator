@@ -9,7 +9,7 @@ from sys import argv
 
 # Function to generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
 # If you want to send a text by passing in parameters, just pass in the first 4. If you want to add a person, set the first 4 to '' and only put actual values for the last 2
-def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RECIPIENT = "", NEW_RECIPIENT_PHONE_NUMBER = ""):
+def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RECIPIENT = "", NEW_RECIPIENT_PHONE_NUMBER = "", SEND_TEXT = False):
     ENV_NAME = "personal_info"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
 
     # If no parameters are given
@@ -22,7 +22,7 @@ def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RE
             EXCUSE = input("Enter the excuse you want to use: ")
 
         # If the -a or --add flag is given with correct parameters, or if correct parameters passed in, add a new user to the .env file
-        elif (NEW_RECIPIENT and NEW_RECIPIENT_PHONE_NUMBER) or (len(argv) == 4 and (argv[1] == "-a" or argv[1] == "--add") and phonenumbers.is_valid_number(phonenumbers.parse(argv[3]))):
+        elif (NEW_RECIPIENT and NEW_RECIPIENT_PHONE_NUMBER) or (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add") and phonenumbers.is_valid_number(phonenumbers.parse(argv[3]))):
             lines = []
             if NEW_RECIPIENT == '' or NEW_RECIPIENT_PHONE_NUMBER == '':
                 NEW_RECIPIENT = argv[2]
@@ -41,23 +41,26 @@ def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RE
             exit()
         
         # If command line arguments are given, use them
-        elif len(argv) == 5:
+        elif len(argv) == 5 or len(argv) == 6:
             # Load command line arguments
             USER = argv[1]
             RECIPIENT = argv[2]
             PROBLEM = argv[3]
             EXCUSE = argv[4]
+            if (len(argv) == 6) and (argv[5].lower() == "-s" or argv[5].lower() == "--send"):
+                SEND_TEXT = True
 
         # Else, give info on how to use the program
         else:
-            print("\nUsage: python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse]")
+            print("\nUsage: python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_flag]")
             print("\tsender: The person who is sending the text")
             print("\trecipient: The person you want to text (can be saved person or a phone number)")
             print("\tproblem: The \"problem\" you are having")
             print("\texcuse: The excuse you want to use")
+            print("\t--send_flag: If you want to send the text, add -s or --send. If you don't want to send the text, don't add this flag\n")
             print("Or just run the program with no arguments to be prompted for input")
             print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
-            print("To add a new recipient to the .env file, run the program with the -a or --add flag then {RECIPIENT} then {PHONE_NUMBER}, e.g. python3 text_excuse_generator.py -a \"John Doe\" \"+1 555 555 5555\"\n")
+            print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] {RECIPIENT} {PHONE_NUMBER}\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+1 555 555 5555\"\n")
             print("The prompt sent to ChatGPT is: \"Write a text message to {RECIPIENT} explaining that you {PROBLEM} because {EXCUSE}.\"\n")
             exit()
 
@@ -76,7 +79,7 @@ def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RE
             exit()
 
     CHATGPT_CONTEXT = f"Write a text message to {RECIPIENT} explaining that you {PROBLEM} because {EXCUSE}. Also start the message by stating this is {USER}"
-    print("\nCreating text message...\n")
+    print("\nCreating message...\n")
 
     # OpenAI API
     openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -88,19 +91,22 @@ def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RE
     AI_RESPONSE = AI_QUERY.choices[0].message.content
     print(f"Chat GPT's Response:\n{AI_RESPONSE}\n")
 
-    TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
-    TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
-    TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
+    if SEND_TEXT:
+        TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+        TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+        TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
 
-    # Twilio API
-    # Sends the text
-    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-    client.messages.create(
-        to = TO_PHONE_NUMBER,
-        from_ = TWILIO_PHONE_NUMBER,
-        body = AI_RESPONSE
-    )
+        # Twilio API
+        # Sends the text
+        print("Sending text...\n")
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        client.messages.create(
+            to = TO_PHONE_NUMBER,
+            from_ = TWILIO_PHONE_NUMBER,
+            body = AI_RESPONSE
+        )
+    return AI_RESPONSE
 
 
 if __name__ == "__main__":
-    generate_excuse()
+    generate_excuse("", "", "", "", "", "", False)
