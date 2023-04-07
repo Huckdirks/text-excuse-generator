@@ -79,24 +79,26 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
         to_phone_number = os.getenv(f"{recipient.upper()}_PHONE_NUMBER")
         if to_phone_number == None:
             print(f"\nError: No phone number found for recipient \'{recipient}\' in .env file!")
-            if len(argv) == 1:  # If in user input mode
-                ADD_RECIPIENT_QUESTION = input("Do you want to add this recipient to the .env file? (y/n): ")
-                if ADD_RECIPIENT_QUESTION.lower() == "y" or ADD_RECIPIENT_QUESTION.lower() == "yes":
-                    new_recipient_phone_number = input("Enter the phone number of the recipient: ")
-                    if phonenumbers.is_valid_number(phonenumbers.parse(new_recipient_phone_number)):
-                        lines = []
-                        with open(f"{ENV_NAME}.env", "r") as file:
-                            lines = file.readlines()
-                        index = lines.index("# Phone Numbers to text\n")
-                        lines.insert(index + 1, f"{recipient.upper()}_PHONE_NUMBER = \"{new_recipient_phone_number}\"\n")
-                        with open(f"{ENV_NAME}.env", "w") as file:
-                            file.writelines(lines)
-                            print(f"Added recipient \'{recipient}\' with phone number \'{new_recipient_phone_number}\' to .env file!")
-                    else:
-                        print("Error: Invalid phone number!")
-                        exit()
-            else:
+            if len(argv) != 1:  # If not in user input mode
                 exit()
+
+            ADD_RECIPIENT_QUESTION = input("Do you want to add this recipient to the .env file? (y/n): ")
+            if not ADD_RECIPIENT_QUESTION.lower() == "y" or not ADD_RECIPIENT_QUESTION.lower() == "yes":
+                exit()
+
+            new_recipient_phone_number = input("Enter the phone number of the recipient: ")
+            if not phonenumbers.is_valid_number(phonenumbers.parse(new_recipient_phone_number)):
+                print("Error: Invalid phone number!")
+                exit()
+
+            lines = []
+            with open(f"{ENV_NAME}.env", "r") as file:
+                lines = file.readlines()
+            index = lines.index("# Phone Numbers to text\n")
+            lines.insert(index + 1, f"{recipient.upper()}_PHONE_NUMBER = \"{new_recipient_phone_number}\"\n")
+            with open(f"{ENV_NAME}.env", "w") as file:
+                file.writelines(lines)
+                print(f"Added recipient \'{recipient}\' with phone number \'{new_recipient_phone_number}\' to .env file!")
 
     CHATGPT_CONTEXT = f"Write a text message to {recipient} explaining that you {problem} because {excuse}. Also start the message by stating this is {user}"
     print("\nCreating message...\n")
@@ -111,21 +113,24 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
     AI_RESPONSE = AI_QUERY.choices[0].message.content
     print(f"Chat GPT's Response:\n{AI_RESPONSE}\n")
 
-    if send_text:
-        TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
-        TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
-        TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
+    if not send_text:
+        return AI_RESPONSE
+        
+    # If the -s or --send flag is given, send the text
+    TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+    TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+    TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
 
-        # Twilio API
-        # Sends the text
-        print("Sending text...\n")
-        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-        client.messages.create(
-            to = to_phone_number,
-            from_ = TWILIO_PHONE_NUMBER,
-            body = AI_RESPONSE
-        )
-        print("Text sent!\n")
+    # Twilio API
+    # Sends the text
+    print("Sending text...\n")
+    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+    client.messages.create(
+        to = to_phone_number,
+        from_ = TWILIO_PHONE_NUMBER,
+        body = AI_RESPONSE
+    )
+    print("Text sent!\n")
     return AI_RESPONSE
 
 
