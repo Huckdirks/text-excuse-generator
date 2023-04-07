@@ -65,14 +65,14 @@ def generate_excuse(USER = "", RECIPIENT = "", PROBLEM = "", EXCUSE = "", NEW_RE
     ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
     load_dotenv(ENV_PATH)
 
-    # Check if recipient isn't a phone number
     TO_PHONE_NUMBER = ""
-    if phonenumbers.is_valid_number(phonenumbers.parse(RECIPIENT)):
+    # Check if recipient is a phone number or a saved person
+    if (RECIPIENT[0] == '+' and RECIPIENT[1:].isnumeric()) and phonenumbers.is_valid_number(phonenumbers.parse(RECIPIENT)):
         TO_PHONE_NUMBER = RECIPIENT
     else:
         TO_PHONE_NUMBER = os.getenv(f"{RECIPIENT.upper()}_PHONE_NUMBER")
         if TO_PHONE_NUMBER == None:
-            print(f"Error: No phone number found for user \'{USER}\' in .env file!")
+            print(f"Error: No phone number found for user \'{RECIPIENT}\' in .env file!")
             exit()
 
     CHATGPT_CONTEXT = f"Write a text message to {RECIPIENT} explaining that you {PROBLEM} because {EXCUSE}. Also start the message by stating this is {USER}"
