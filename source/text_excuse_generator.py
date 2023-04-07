@@ -48,7 +48,10 @@ def main():
     openai.api_key = os.getenv("OPENAI_API_KEY")
     AI_QUERY = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
-        messages = [{"role": "system", "content": "Turn all _'s into spaces in user input."}, {"role": "user", "content": AI_CONTEXT}]
+        messages = [
+            {"role": "system", "content": "Turn all _'s into spaces in user input."},
+            {"role": "user", "content": AI_CONTEXT}
+        ]
     )
     AI_RESPONSE = AI_QUERY.choices[0].message.content
     print(f"Chat GPT's Response:\n{AI_RESPONSE}\n")
