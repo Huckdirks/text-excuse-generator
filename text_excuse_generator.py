@@ -30,6 +30,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
             recipient = input("Enter who you want to text: ")
             problem = input("Enter the fake problem you are having: ")
             excuse = input("Enter the excuse you want to use: ")
+
             send_text_question = input("Do you want to send the text? (y/n): ")
             if send_text_question.lower() == "y" or send_text_question.lower() == "yes":
                 send_text = True
@@ -40,6 +41,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
             if new_recipient == '' or new_recipient_phone_number == '':
                 new_recipient = argv[2]
                 new_recipient_phone_number = argv[3]
+
             # Add a new user to the .env file
             with open(f"{ENV_NAME}.env", "r") as file:
                 lines = file.readlines()
@@ -79,7 +81,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
         to_phone_number = os.getenv(f"{recipient.upper()}_PHONE_NUMBER")
         if to_phone_number == None:
             print(f"\nError: No phone number found for recipient \'{recipient}\' in .env file!")
-            if len(argv) != 1:  # If not in user input mode
+            if len(argv) != 1:  # If not in user input mode, exit, else ask if they want to add the recipient
                 exit()
 
             ADD_RECIPIENT_QUESTION = input("Do you want to add this recipient to the .env file? (y/n): ")
