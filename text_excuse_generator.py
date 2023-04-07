@@ -75,7 +75,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
     # Check if recipient is a phone number or a saved person
     if (recipient[0] == '+' and recipient[1:].isnumeric()) and phonenumbers.is_valid_number(phonenumbers.parse(recipient)):
         to_phone_number = recipient
-    else:
+    elif send_text:
         to_phone_number = os.getenv(f"{recipient.upper()}_PHONE_NUMBER")
         if to_phone_number == None:
             print(f"Error: No phone number found for user \'{recipient}\' in .env file!")
