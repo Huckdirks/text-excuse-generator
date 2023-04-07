@@ -1,4 +1,4 @@
-# Wikipedia Links Graph
+# Text Excuse Generator
 
 ## Table of Contents
 
