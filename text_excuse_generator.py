@@ -38,7 +38,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
             if send_text_question.lower() == "y" or send_text_question.lower() == "yes":
                 send_text = True
 
-        # If the -a or --add flag is given with correct parameters, or if correct parameters passed in, add a new user to the .env file
+        # If the -a or --add flag is given with correct parameters, or if correct parameters passed in=
         elif (new_recipient and new_recipient_phone_number) or (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add") and phonenumbers.is_valid_number(phonenumbers.parse(argv[3]))):
             lines = []
             if new_recipient == '' or new_recipient_phone_number == '':
@@ -119,7 +119,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
         return AI_RESPONSE
         
     # If the -s or --send flag is given, send the text
-    
+
     TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
     TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
     TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
