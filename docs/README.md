@@ -43,7 +43,7 @@ If you want to save a new recipient to the system, run:
 
 `python3 text_excuse_generator.py --add [name] [phone_number]`
 
-e.g. `python3 text_excuse_generator.py -a "Your mom" "+15555555555"`
+e.g. `python3 text_excuse_generator.py -a "Your mom" +15555555555`
 
 ### Importing as a Module
 
