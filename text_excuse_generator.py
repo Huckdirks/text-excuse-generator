@@ -10,7 +10,10 @@ from sys import argv
 # Function to generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
 # If you want to send a text by passing in parameters, just pass in the first 4. If you want to add a person, set the first 4 to '' and only put actual values for the last 2
 def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_recipient = "", new_recipient_phone_number = "", send_text = False):
+    # Load environment variables
     ENV_NAME = "personal_info"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
+    ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
+    load_dotenv(ENV_PATH)
 
     # If no parameters are given
     if not user or recipient or problem or excuse:
@@ -68,10 +71,6 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
             print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] [recipient] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+1 555 555 5555\"\n")
             print("The prompt sent to ChatGPT is: \"Write a text message to {recipient} explaining that you {problem} because {excuse}.\"\n")
             exit()
-
-    # Load environment variables
-    ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
-    load_dotenv(ENV_PATH)
 
     to_phone_number = ""
     # Check if recipient is a phone number or a saved person
