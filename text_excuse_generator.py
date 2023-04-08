@@ -126,8 +126,8 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
     # Twilio API
     # Sends the text
     print("Sending text...\n")
-    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)  # Login to Twilio
-    client.messages.create(
+    twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)  # Login to Twilio
+    twilio_client.messages.create(
         to = to_phone_number,
         from_ = TWILIO_PHONE_NUMBER,
         body = AI_RESPONSE
