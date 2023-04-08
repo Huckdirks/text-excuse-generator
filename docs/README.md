@@ -4,6 +4,9 @@
 
 - [Introduction](#introduction)
 - [Uses](#uses)
+    - [Running from Command Line](#running-from-command-line)
+    - [Running with Command Line Arguments](#running-with-command-line-arguments)
+    - [Importing as a Module](#importing-as-a-module)
 - [Running](#running)
     - [Dependencies](#dependencies)
     - [Setting Up .env File](#setting-up-env-file)
@@ -15,23 +18,26 @@
 
 ## Introduction
 
-Recently, I came across a reddit post on [r/ProgrammerHumor](https://www.reddit.com/r/ProgrammerHumor/) that had a comment that referenced [this repository](https://github.com/NARKOZ/hacker-scripts#readme). While not only being a pretty funny story and set of scripts, it also got me thinking about creating a script of my own to create excuses and text them to whoever I want/need to. Unlike the scripts that I took inspiration from: [hangover.py](https://github.com/NARKOZ/hacker-scripts/blob/master/python3/hangover.py) & [smack_my_bitch_up.py](https://github.com/NARKOZ/hacker-scripts/blob/master/python3/smack_my_bitch_up.py), that just picked excuses from a predetermined list, I decided to generate the excuses using [OpenAI's GPT-3.5-turbo](https://openai.com/blog/openai-api/) API, and I used [Twilio's API](https://www.twilio.com/docs/sms/quickstart/python) to send text messages. The program prompts the user (or can be passed in as arguments) for: the sender of the text, the recipient of the text, the 'problem', and an excuse for the problem. It also has a system to save phone numbers to names, so you can just type in a name instead of a phone number. Since the program uses OpenAI's API, it can generate a pretty good excuse to anyone for virtually anything! The program can be run normally, with command line arguments, or imported as a module into another python file. Since it can have command line arguments passed in to operate it, it can be used in other programs, such as a BASH script, or used in a cron job.
+Recently, I came across a reddit post on [r/ProgrammerHumor](https://www.reddit.com/r/ProgrammerHumor/) that had a comment that referenced [this repository](https://github.com/NARKOZ/hacker-scripts#readme). While not only being a pretty funny story and set of scripts, it also got me thinking about creating a script of my own to create excuses and text them to whoever I want/need to. Unlike the scripts that I took inspiration from: [hangover.py](https://github.com/NARKOZ/hacker-scripts/blob/master/python3/hangover.py) & [smack_my_bitch_up.py](https://github.com/NARKOZ/hacker-scripts/blob/master/python3/smack_my_bitch_up.py), that just picked excuses from a predetermined list, I decided to generate the excuses using [OpenAI's GPT-3.5-turbo](https://openai.com/blog/openai-api/) API, and I used [Twilio's API](https://www.twilio.com/docs/sms/quickstart/python) to send text messages. The program prompts the user (or can be passed in as arguments) for: the sender of the text, the recipient of the text, the 'problem', and an excuse for the problem. It also has a system to save phone numbers to names, so you can just type in a name instead of a phone number. Since the program uses OpenAI's [GPT-3.5-turbo](https://platform.openai.com/docs/models/gpt-3-5) model, it can generate a pretty good excuse to anyone for virtually anything! The program can be run normally, with command line arguments, or imported as a module into another python file. Since it can have command line arguments passed in to operate it, it can be used in other programs, such as a BASH script, or used in a cron job.
 
 ## Uses
 
 There are three main ways to interact with the program: by running it normally, by running it with command line arguments, or by importing it into another python file.
 
-Note: Recipient can be a name or a case sensitive phone number: e.g. `Huck` or `+15555555555`. You must also set up your .env file (more details in [Dependencies](#dependencies)).
+Note: Recipient can be a name or a case sensitive phone number: e.g. `Huck` or `+15555555555`. You must also set up your .env file (more details in [Dependencies](#setting-up-env-file)).
 
-### Running Normally
+### Running from Command Line
 
 When you run the program normally, it will ask you for the sender, recipient, problem, and excuse, and if you want to send the text message. It will then generate a text message, and send it to the recipient if chosen. If you input a name into recipient that isn't saved to the system yet when sending a text, it will ask you if you want to save it to the system. If you choose to save it, it will ask you for the phone number, and then save it to the system. You can also just use a phone number for the recipient field, and it will send the text to that number.
 
 ### Running with Command Line Arguments
 
-You can also run the program with command line arguments. If you want to send the text message, you can add `--send` or `-s` as the last argument. All command line arguments longer than a single word need to be in parentheses: e.g. `"your mom"`
+You can also run the program with command line arguments. If you want to send the text message, you can add `--send` or `-s` as the last argument. All command line arguments longer than a single word need to be in parentheses.
 
 `python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_flag]`
+
+e.g. `python3 text_excuse_generator.py Me "Your mom" "I'm late to 😈" "Too many wizards around" -s`
+
 
 If you want to save a new recipient to the system, run:
 
@@ -63,7 +69,7 @@ If you want to save a new recipient to the system, call the function like this:
 
 You'll need to create a [Twilio](https://www.twilio.com/try-twilio) account to get a phone number. You can either use the free trial phone number, or pay $1/month for a real phone number, but you'll need to verify any phone numbers you want to text with the trial account. Once you get a phone number, you'll have to save the Account SID, Auth Token, and phone number in a `.env` file in the root directory. You can use the `personal_info.txt` file as a template.
 
-You'll also need to create an [OpenAI account](https://platform.openai.com/signup) to get an [API key](https://platform.openai.com/account/api-keys). You'll also need to give payment information to OpenAI to use the API, but with the GPT-3.5-Turbo model it's **extremely cheap**: $0.002/1000 tokens, with one word, punctuation, special character, or space being one token.
+You'll also need to create an [OpenAI account](https://platform.openai.com/signup) to get an [API key](https://platform.openai.com/account/api-keys). You'll also need to give payment information to OpenAI to use the API, but with the GPT-3.5-Turbo model it's **extremely cheap**: $0.002/1000 tokens, at one word, punctuation, special character, or space per token.
 
 #### Install
 
@@ -86,11 +92,11 @@ e.g. `python3 text_excuse_generator.py Me "Your mom" "I'm late to 😈" "Too man
 ## Quality Assurance
 All variable, function, class, module, & file names are written in [snake_case](https://en.wikipedia.org/wiki/Snake_case) to make sure everything is consistent, and all `const` variables are written in ALL-CAPS. The code is also quite commented and the variable names are quite verbose, so it should be easy enough to understand what's going on.
 
-If there are any other/better ways to check for quality assurance, please let me know in the [suggestions](https://github.com/Huckdirks/Wikipedia_Links_Graph/discussions/new?category=suggestions)!
+If there are any other/better ways to check for quality assurance, please let me know in the [suggestions](https://github.com/Huckdirks/Excuse_Text_Generator/discussions/new?category=suggestions)!
 
 ## Suggestions
 
-If you have any suggestions about anything, please create a [new discussion in suggestions](https://github.com/Huckdirks/Wikipedia_Graph/discussions/new?category=suggestions).
+If you have any suggestions about anything, please create a [new discussion in suggestions](https://github.com/Huckdirks/Excuse_Text_Generator/discussions/new?category=suggestions).
 
 ## Contributing
 
