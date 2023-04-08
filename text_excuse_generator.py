@@ -9,7 +9,7 @@ from sys import argv
 
 # Function to generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
 # If you want to send a text by passing in parameters, just pass in the first 4. If you want to add a person, set the first 4 to '' and only put actual values for the last 2
-def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_recipient = "", new_recipient_phone_number = "", send_text = False):
+def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_text = False, new_recipient = "", new_recipient_phone_number = ""):
     # Load environment variables
     ENV_NAME = "personal_info"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
     ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")

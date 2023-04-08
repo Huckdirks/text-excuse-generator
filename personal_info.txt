@@ -10,4 +10,3 @@ OPENAI_API_KEY = ""
 
 # Phone Numbers to text
 ME_PHONE_NUMBER = ""
-MY_PHONE_NUMBER = ""
