@@ -65,7 +65,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
             print("\trecipient: The person you want to text (can be saved person or a phone number)")
             print("\tproblem: The \"problem\" you are having")
             print("\texcuse: The excuse you want to use")
-            print("\t--send_flag: If you want to send the text, add -s or --send. If you don't want to send the text, don't add this flag\n")
+            print("\t--send_flag: If you want to send the text, add -s or --send. If you don't want to send the text, omit this flag\n")
             print("Or just run the program with no arguments to be prompted for input")
             print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
             print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] [recipient] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+1 555 555 5555\"\n")

@@ -39,7 +39,7 @@ Run `python3 text_excuse_generator.py` or `python3 text_excuse_generator.py [sen
 E.g. `python3 text_excuse_generator.py Me "Your mom" "I'm late to 😈" "Too many wizards around"`
 
 ## Quality Assurance
-All variable, function, classe, module, & file names are written in [snake_case](https://en.wikipedia.org/wiki/Snake_case) to make sure everything is consistent, and all `const` variables are written in ALL-CAPS. The code is also quite commented and the variable names are quite verbose, so it should be easy enough to understand what's going on.
+All variable, function, class, module, & file names are written in [snake_case](https://en.wikipedia.org/wiki/Snake_case) to make sure everything is consistent, and all `const` variables are written in ALL-CAPS. The code is also quite commented and the variable names are quite verbose, so it should be easy enough to understand what's going on.
 
 If there are any other/better ways to check for quality assurance, please let me know in the [suggestions](https://github.com/Huckdirks/Wikipedia_Links_Graph/discussions/new?category=suggestions)!
 
