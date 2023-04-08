@@ -47,19 +47,25 @@ e.g. `python3 text_excuse_generator.py -a "Your mom" "+15555555555"`
 
 ### Importing as a Module
 
-You can also import the program as a module into another python file. The `text_excuse_generator` module has only one function: `generate_excuse`. It takes in:
+You can also import the program as a module into another python file. The `text_excuse_generator` module has only one function: `generate_excuse()`. It takes in:
 
-`generate_excuse(user: str, recipient: str, problem: str, excuse: str, send_text: bool, new_recipient_name: str, new_recipient_phone_number: str)`
+```python
+generate_excuse(user: str, recipient: str, problem: str, excuse: str, send_text: bool, new_recipient_name: str, new_recipient_phone_number: str)
+```
 
 It returns a string of the text message that was generated. If you want to keep a field blank you must pass in an empty string `''`. 
 
 If you want to generate a text message, call the function like this:
 
-`generate_excuse("user", "recipient", "problem", "excuse", True)`. Omit the `send_text` parameter if you don't want to send the text message.
+```python
+generate_excuse("user", "recipient", "problem", "excuse", True)
+```
+Omit the `send_text` parameter if you don't want to send the text message.
 
 If you want to save a new recipient to the system, call the function like this:
-
-`generate_excuse('', '', '', '', False, "new_recipient_name", "new_recipient_phone_number")`.
+```python
+generate_excuse('', '', '', '', False, "new_recipient_name", "new_recipient_phone_number")
+```
 
 ## Running
 
