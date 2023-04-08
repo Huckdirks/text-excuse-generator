@@ -101,6 +101,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
                 file.writelines(lines)
                 print(f"Added recipient \'{recipient}\' with phone number \'{new_recipient_phone_number}\' to .env file!")
 
+    # Create the message (AI Time!)
     CHATGPT_CONTEXT = f"Write a text message to {recipient} explaining that you {problem} because {excuse}. Also start the message by stating this is {user}, and end the message by telling the recipient to text my actual phone number back if you really need me."
     print("\nCreating message...\n")
 
@@ -125,7 +126,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", new_re
     # Twilio API
     # Sends the text
     print("Sending text...\n")
-    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)  # Login to Twilio
     client.messages.create(
         to = to_phone_number,
         from_ = TWILIO_PHONE_NUMBER,
