@@ -129,14 +129,6 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
             if send_text_question.lower() == "y" or send_text_question.lower() == "yes":
                 send_text = True
 
-        #elif (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add")):    # If the -a or --add flag is given with correct parameters, and correct # of parameters are passed in
-            #add_recipient(argv[2], argv[3])
-            #return
-        
-        #elif (len(argv) == 5 and (argv[1].lower() == "-e" or argv[1].lower() == "--setup_env")):   # If the -e or --setup_env flag is given with correct parameters, and correct # of parameters are passed in
-            #setup_env(argv[2], argv[3], argv[4])
-            #return
-
         else:   # Give info on how to use the program
             print("\nUsage: python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_flag]")
             print("\tsender: The person who is sending the text")
@@ -147,7 +139,7 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
             print("Or just run the program with no arguments to be prompted for input")
             print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
             print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] [recipient] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+15555555555\"\n")
-            print("To setup the .env file, run python3 text_excuse_generator.py [-e/--setup_env] [TWILIO_ACCOUNT_SID] [TWILIO_AUTH_TOKEN] [TWILIO_PHONE_NUMBER] [OPENAI_API_KEY]\n\te.g. python3 text_excuse_generator.py -e \"AC1234567890abcdef1234567890abcdef\" \"1234567890abcdef1234567890abcdef\" \"+15555555555\"\n")
+            print("To setup the .env file, run python3 text_excuse_generator.py [-e/--setup_env] [TWILIO_ACCOUNT_SID] [TWILIO_AUTH_TOKEN] [TWILIO_PHONE_NUMBER] [OPENAI_API_KEY]\n\te.g. python3 text_excuse_generator.py -e \"AC1234567890abcdef1234567890abcdef\" \"1234567890abcdef1234567890abcdef\" \"+15555555555\" \"1234567890abcdef1234567890abcdef\"\n")
             print("The prompt sent to ChatGPT is: \"Write a text message to [recipient] explaining that you [problem] because [excuse].\"\n")
             return
 

@@ -7,14 +7,16 @@
     - [Running from Command Line](#running-from-command-line)
     - [Running with Command Line Arguments](#running-with-command-line-arguments)
         - [Sending a Text Message](#sending-a-text-message)
+        - [Setting Up .env File](#setting-up-env-file)
         - [Saving a New Recipient](#saving-a-new-recipient)
     - [Importing as a Module](#importing-as-a-module)
         - [`generate_excuse()`](#generate_excuse-takes-in)
+        - [`setup_env()`](#setup_env-takes-in)
         - [`add_recipient()`](#add_recipient-takes-in)
         - [`send_twilio_text()`](#send_twilio_text-takes-in)
 - [Running](#running)
     - [Dependencies](#dependencies)
-    - [Setting Up .env File](#setting-up-env-file)
+    - [Setting Up .env File](#setting-up-env-file-1)
     - [Running](#running-1)
 - [Quality Assurance](#quality-assurance)
 - [Suggestions](#suggestions)
@@ -55,13 +57,22 @@ python3 text_excuse_generator.py Me "Your mom" "I'm late to 😈" "Too many wiza
 ```
 Omit the `[--send_text_flag]` if you don't want to send the text message.
 
+#### **Setting Up .env File**
+If you want to set up the .env file, run:
+```bash
+python3 text_excuse_generator.py [-e/--setup_env] [TWILIO_ACCOUNT_SID] [TWILIO_AUTH_TOKEN] [TWILIO_PHONE_NUMBER] [OPENAI_API_KEY]
+```
+e.g.
+```bash
+python3 text_excuse_generator.py -e "AC1234567890" "1234567890" "+15555555555" "sk-1234567890"
+```
+
 #### **Saving a New Recipient**
 
 If you want to save a new recipient to the system, run:
 ```bash
-python3 text_excuse_generator.py --add [name] [phone_number]
+python3 text_excuse_generator.py [-a/--add] [name] [phone_number]
 ```
-
 e.g.
 ```bash
 python3 text_excuse_generator.py -a "Your mom" +15555555555
@@ -69,7 +80,7 @@ python3 text_excuse_generator.py -a "Your mom" +15555555555
 
 ### Importing as a Module
 
-You can also import the program as a module into another python file. The `text_excuse_generator` module has  three functions: `generate_excuse()`, `add_recipient()`, & `send_twilio_text()`.
+You can also import the program as a module into another python file. The `text_excuse_generator` module has  four functions: `generate_excuse()`, `setup_env()`, `add_recipient()`, & `send_twilio_text()`.
 
 #### `generate_excuse()` takes in:
 ```python
@@ -87,6 +98,20 @@ e.g.
 generate_excuse("me", "your mom", "I'm late to 😈", "Too many wizards around", True)
 ```
 Omit the `[--send_text_flag]` if you don't want to send the text message.
+
+#### `setup_env()` takes in:
+```python
+setup_env(TWILIO_ACCOUNT_SID: str, TWILIO_AUTH_TOKEN: str, TWILIO_PHONE_NUMBER: str, OPENAI_API_KEY: str) -> bool
+```
+If you want to set up your .env file, call `setup_env()` like this:
+```python
+setup_env("TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_PHONE_NUMBER", "OPENAI_API_KEY")
+```
+e.g.
+```python
+setup_env("AC1234567890abcdef1234567890abcdef", "1234567890abcdef1234567890abcdef", "+15555555555", "sk-1234567890")
+```
+`setup_env()` returns True if the .env file was successfully set up, and False if it wasn't (Invalid phone number).
 
 #### `add_recipient()` takes in:
 ```python
@@ -133,11 +158,11 @@ Double click [`dependencies`](../dependencies), or run `bash `[`dependencies`](.
 
 ### Setting Up .env File
 
-In the root directory, you'll need to rename [`personal_info.txt`](https://github.com/Huckdirks/Excuse_Text_Generator/blob/main/personal_info.txt) to `personal_info.env` and put your information from your Twilio & OpenAI accounts. You can manually put phone numbers in there if you want, or you could add it via the program.
+Either run the program without any arguments to manually input the information for the .env file, run with [command line arguments](#setting-up-env-file) to automatically input the information for the .env file, or pass in the correct parameters to the [`setup_env()`](#setup_env-takes-in) function in the `text_excuse_generator` module.
 
 ### Running
 
-**YOU HAVE TO INSTALL THE DEPENDENCIES & MANUALLY CONFIGURE YOUR `.env` FILE BEFORE TRYING TO RUN THE PROGRAM!!!**
+**YOU HAVE TO INSTALL THE DEPENDENCIES & SETUP THE `.env` FILE BEFORE TRYING TO RUN THE PROGRAM!!!**
 
 Run `python3 text_excuse_generator.py` or `python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_text_flag]` in the command line in the root directory.
 
