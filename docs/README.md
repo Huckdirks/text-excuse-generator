@@ -28,6 +28,10 @@ Note: Recipient can be a name or a case sensitive phone number: e.g. `Huck` or `
 
 ### Running from Command Line
 
+```bash
+python3 text_excuse_generator.py
+```
+
 When you run the program normally, it will ask you for the sender, recipient, problem, and excuse, and if you want to send the text message. It will then generate a text message, and send it to the recipient if chosen. If you input a name into recipient that isn't saved to the system yet when sending a text, it will ask you if you want to save it to the system. If you choose to save it, it will ask you for the phone number, and then save it to the system. You can also just use a phone number for the recipient field, and it will send the text to that number.
 
 ### Running with Command Line Arguments
