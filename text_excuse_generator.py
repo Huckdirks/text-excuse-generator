@@ -48,7 +48,7 @@ def add_recipient(RECIPIENT: str, PHONE_NUMBER: str) -> bool:
 # If the -s or --send flag is given, send the text
 def send_twilio_text(TO_PHONE_NUMBER: str, MESSAGE: str) -> None:
     print("Sending text...")
-    
+
     # Twilio API
     twilio_client = twilio.rest.Client(getenv("TWILIO_ACCOUNT_SID"), getenv("TWILIO_AUTH_TOKEN"))  # Login to Twilio
     twilio_client.messages.create(
@@ -107,8 +107,8 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
     if (recipient[0] == '+' and recipient[1:].isnumeric()) and is_valid_number(parse(recipient)):   # Check if recipient is a phone number
         to_phone_number = recipient
     elif send_text:
-        recipient_formatted = recipient.replace(" ", "_")
-        to_phone_number = getenv(f"{recipient_formatted.upper()}_PHONE_NUMBER")
+        RECIPIENT_FORMATTED = recipient.replace(" ", "_")
+        to_phone_number = getenv(f"{RECIPIENT_FORMATTED.upper()}_PHONE_NUMBER")
         if to_phone_number == None: # If the recipient is not in the .env file
             print(f"\nError: No phone number found for recipient \'{recipient}\' in .env file!")
             if len(argv) != 1:  # If not in user input mode, exit, else ask if they want to add the recipient
