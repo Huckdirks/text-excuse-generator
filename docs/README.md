@@ -40,7 +40,7 @@ You can also run the program with command line arguments. If you want to send th
 
 If you want to send a text with command line arguments, run:
 ```bash
-python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_flag]
+python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_text_flag]
 ```
 e.g. `python3 text_excuse_generator.py Me "Your mom" "I'm late to 😈" "Too many wizards around" -s`
 Omit the `--send_text_flag` if you don't want to send the text message.
