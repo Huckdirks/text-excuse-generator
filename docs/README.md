@@ -42,8 +42,8 @@ If you want to send a text with command line arguments, run:
 ```bash
 python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_flag]
 ```
-
 e.g. `python3 text_excuse_generator.py Me "Your mom" "I'm late to 😈" "Too many wizards around" -s`
+Omit the `--send_flag` if you don't want to send the text message.
 
 
 If you want to save a new recipient to the system, run:
