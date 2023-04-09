@@ -108,7 +108,7 @@ In the root directory, you'll need to rename [`personal_info.txt`](https://githu
 
 **YOU HAVE TO INSTALL THE DEPENDENCIES & MANUALLY CONFIGURE YOUR .env FILE BEFORE TRYING TO RUN THE PROGRAM!!!**
 
-Run `python3 text_excuse_generator.py` or `python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse]` in the command line in the root directory.
+Run `python3 text_excuse_generator.py` or `python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_text_flag]` in the command line in the root directory.
 
 More detailed instructions are in the [Uses](#uses) section.
 
