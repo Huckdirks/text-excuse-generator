@@ -18,7 +18,7 @@ def add_recipient(RECIPIENT, PHONE_NUMBER):
         print("Error: Invalid phone number!")
         return False
     
-    # Replace spaces with underscores
+    # Replace spaces with underscores for formatting
     NEW_RECIPIENT = RECIPIENT.replace(" ", "_")
     lines = []
     
