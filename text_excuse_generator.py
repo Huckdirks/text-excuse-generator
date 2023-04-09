@@ -14,7 +14,7 @@ ENV_NAME = "personal_info"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
 ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
 
 
-# Function to save a phone number to the .env file
+# Save a phone number to the .env file
 def add_recipient(RECIPIENT: str, PHONE_NUMBER: str) -> bool:
     if not is_valid_number(parse(PHONE_NUMBER)):
         print("Error: Invalid phone number!")
@@ -42,7 +42,7 @@ def add_recipient(RECIPIENT: str, PHONE_NUMBER: str) -> bool:
     return True
 
 
-# Function to generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
+# Generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
 def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excuse: str = "", send_text: bool = False) -> str:
     # Load environment variables
     load_dotenv(ENV_PATH)
