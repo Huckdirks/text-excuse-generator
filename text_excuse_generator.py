@@ -1,8 +1,10 @@
-# Libraries
+# Imported Libraries
 from dotenv import load_dotenv
 import openai   # I would just import the necessary functions, but api_key is too generic of a name, so I'm gonna keep the OpenAI namespace
 import twilio.rest
 from phonenumbers import is_valid_number, parse
+
+# Python Libraries
 from os import getenv
 from os.path import dirname, join
 from sys import argv
@@ -36,7 +38,7 @@ def add_recipient(RECIPIENT: str, PHONE_NUMBER: str):
     with open("personal_info.env", "w") as file:
         file.writelines(lines)
         print(f"Added recipient \'{NEW_RECIPIENT}\' with phone number \'{PHONE_NUMBER}\' to .env file!")
-        
+
     return True
 
 
