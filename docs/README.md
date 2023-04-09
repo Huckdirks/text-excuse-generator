@@ -72,7 +72,7 @@ Omit the `send_text` parameter if you don't want to send the text message.
 
 #### `add_recipient()` takes in:
 ```python
-add_recipient(name: str, phone_number: str)
+add_recipient(NAME: str, PHONE_NUMBER: str)
 ```
 If you want to save a new recipient to the system, call `add_recipient()` like this:
 ```python
