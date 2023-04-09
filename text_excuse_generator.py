@@ -7,12 +7,40 @@ import os
 from os.path import dirname, join
 from sys import argv
 
+# Constants
+ENV_NAME = "personal_info"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
+ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
+
+
+# Function to save a phone number to the .env file
+def add_recipient(RECIPIENT, PHONE_NUMBER):
+    if not phonenumbers.is_valid_number(phonenumbers.parse(PHONE_NUMBER)):
+        print("Error: Invalid phone number!")
+        return False
+    
+    # Replace spaces with underscores
+    NEW_RECIPIENT = RECIPIENT.replace(" ", "_")
+    
+    lines = []
+    # Add a new user to the .env file
+    with open(f"{ENV_NAME}.env", "r") as file:
+        lines = file.readlines()
+
+    if f"{NEW_RECIPIENT.upper()}_PHONE_NUMBER = \"{PHONE_NUMBER}\"\n" in lines:
+        print(f"Error: Recipient \'{NEW_RECIPIENT}\' already exists in .env file!")
+        return False
+    index = lines.index("# Phone Numbers to text\n")
+    lines.insert(index + 1, f"{NEW_RECIPIENT.upper()}_PHONE_NUMBER = \"{PHONE_NUMBER}\"\n")
+
+    with open("personal_info.env", "w") as file:
+        file.writelines(lines)
+        print(f"Added recipient \'{NEW_RECIPIENT}\' with phone number \'{PHONE_NUMBER}\' to .env file!")
+    return True
+
+
 # Function to generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
-# If you want to send a text by passing in parameters, just pass in the first 4. If you want to add a person, set the first 4 to '' and only put actual values for the last 2
-def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_text = False, new_recipient = "", new_recipient_phone_number = ""):
+def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_text = False):
     # Load environment variables
-    ENV_NAME = "personal_info"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
-    ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
     load_dotenv(ENV_PATH)
 
     # If no parameters are given
@@ -39,23 +67,8 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
                 send_text = True
 
         # If the -a or --add flag is given with correct parameters, or if correct parameters passed in=
-        elif (new_recipient and new_recipient_phone_number) or (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add") and phonenumbers.is_valid_number(phonenumbers.parse(argv[3]))):
-            lines = []
-            if new_recipient == '' or new_recipient_phone_number == '':
-                new_recipient = argv[2]
-                new_recipient_phone_number = argv[3]
-
-            # Add a new user to the .env file
-            with open(f"{ENV_NAME}.env", "r") as file:
-                lines = file.readlines()
-            if f"{new_recipient.upper()}_PHONE_NUMBER = \"{new_recipient_phone_number}\"\n" in lines:
-                    print(f"Error: Recipient \'{new_recipient}\' already exists in .env file!")
-                    exit()
-            index = lines.index("# Phone Numbers to text\n")
-            lines.insert(index + 1, f"{new_recipient.upper()}_PHONE_NUMBER = \"{new_recipient_phone_number}\"\n")
-            with open(f"{ENV_NAME}.env", "w") as file:
-                file.writelines(lines)
-                print(f"Added recipient \'{new_recipient}\' with phone number \'{new_recipient_phone_number}\' to .env file!")
+        elif (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add")):
+            add_recipient(argv[2], argv[3])
             exit()
 
         # Else, give info on how to use the program
@@ -87,19 +100,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
             if not ADD_RECIPIENT_QUESTION.lower() == "y" or not ADD_RECIPIENT_QUESTION.lower() == "yes":
                 exit()
 
-            new_recipient_phone_number = input("Enter the phone number of the recipient: ")
-            if not phonenumbers.is_valid_number(phonenumbers.parse(new_recipient_phone_number)):
-                print("Error: Invalid phone number!")
-                exit()
-
-            lines = []
-            with open(f"{ENV_NAME}.env", "r") as file:
-                lines = file.readlines()
-            index = lines.index("# Phone Numbers to text\n")
-            lines.insert(index + 1, f"{recipient.upper()}_PHONE_NUMBER = \"{new_recipient_phone_number}\"\n")
-            with open(f"{ENV_NAME}.env", "w") as file:
-                file.writelines(lines)
-                print(f"Added recipient \'{recipient}\' with phone number \'{new_recipient_phone_number}\' to .env file!")
+            add_recipient(recipient, input("Enter the phone number of the recipient: "))
 
     # Create the message (AI Time!)
     CHATGPT_CONTEXT = f"Write a text message to {recipient} explaining that you {problem} because {excuse}. Also start the message by stating this is {user}, and end the message by telling the recipient to text my actual phone number back if you really need me."
