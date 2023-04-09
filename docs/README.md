@@ -43,7 +43,7 @@ When you run the program normally, it will ask you for the sender, recipient, pr
 
 You can also run the program with command line arguments. If you want to send the text message, you can add `--send` or `-s` as the last argument. All command line arguments longer than a single word need to be in parentheses.
 
-#### Sending a Text Message
+#### **Sending a Text Message**
 
 If you want to send a text with command line arguments, run:
 ```bash
@@ -52,7 +52,7 @@ python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send
 e.g. `python3 text_excuse_generator.py Me "Your mom" "I'm late to 😈" "Too many wizards around" -s`
 Omit the `--send_text_flag` if you don't want to send the text message.
 
-#### Saving a New Recipient
+#### **Saving a New Recipient**
 
 If you want to save a new recipient to the system, run:
 ```bash
