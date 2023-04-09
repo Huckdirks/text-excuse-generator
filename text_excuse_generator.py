@@ -1,9 +1,9 @@
 # Libraries
 from dotenv import load_dotenv
-import openai
+import openai   # I would just import the necessary functions, but api_key is too generic of a name, so I'm gonna keep the OpenAI namespace
 from twilio.rest import Client
-import phonenumbers
-import os
+from phonenumbers import is_valid_number, parse
+from os import getenv
 from os.path import dirname, join
 from sys import argv
 
@@ -14,7 +14,7 @@ ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
 
 # Function to save a phone number to the .env file
 def add_recipient(RECIPIENT, PHONE_NUMBER):
-    if not phonenumbers.is_valid_number(phonenumbers.parse(PHONE_NUMBER)):
+    if not is_valid_number(parse(PHONE_NUMBER)):
         print("Error: Invalid phone number!")
         return False
     
@@ -90,11 +90,11 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
 
     to_phone_number = ""
     # Check if recipient is a phone number or a saved person
-    if (recipient[0] == '+' and recipient[1:].isnumeric()) and phonenumbers.is_valid_number(phonenumbers.parse(recipient)):
+    if (recipient[0] == '+' and recipient[1:].isnumeric()) and is_valid_number(parse(recipient)):
         to_phone_number = recipient
     elif send_text:
         recipient_formatted = recipient.replace(" ", "_")
-        to_phone_number = os.getenv(f"{recipient_formatted.upper()}_PHONE_NUMBER")
+        to_phone_number = getenv(f"{recipient_formatted.upper()}_PHONE_NUMBER")
         if to_phone_number == None:
             print(f"\nError: No phone number found for recipient \'{recipient}\' in .env file!")
             if len(argv) != 1:  # If not in user input mode, exit, else ask if they want to add the recipient
@@ -112,7 +112,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
     print("\nCreating message...\n")
 
     # OpenAI API
-    openai.api_key = os.getenv("OPENAI_API_KEY")
+    openai.api_key = getenv("OPENAI_API_KEY")
     AI_QUERY = openai.ChatCompletion.create(
         model = "gpt-3.5-turbo",
         messages = [{"role": "user", "content": CHATGPT_CONTEXT}]
@@ -126,9 +126,9 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
         
     # If the -s or --send flag is given, send the text
 
-    TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
-    TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
-    TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
+    TWILIO_ACCOUNT_SID = getenv("TWILIO_ACCOUNT_SID")
+    TWILIO_AUTH_TOKEN = getenv("TWILIO_AUTH_TOKEN")
+    TWILIO_PHONE_NUMBER = getenv("TWILIO_PHONE_NUMBER")
 
     # Twilio API
     # Sends the text
@@ -139,7 +139,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
         from_ = TWILIO_PHONE_NUMBER,
         body = AI_RESPONSE
     )
-    print("Text sent!\n")
+    print("Text sent!")
     return AI_RESPONSE
 
 
