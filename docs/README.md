@@ -55,7 +55,7 @@ e.g. `python3 text_excuse_generator.py -a "Your mom" +15555555555`
 
 ### Importing as a Module
 
-You can also import the program as a module into another python file. The `text_excuse_generator` module has  two functions: `generate_excuse()` & `add_recipient()`.
+You can also import the program as a module into another python file. The `text_excuse_generator` module has  three functions: `generate_excuse()`, `add_recipient()`, & `send_twilio_text()`.
 
 #### `generate_excuse()` takes in:
 ```python
@@ -87,6 +87,19 @@ e.g.
 add_recipient("Your Mom", "+15555555555")
 ```
 `add_recipient()` returns True if the recipient was successfully added to the system, and False if it wasn't (Invalid phone number or phone number is already in the system).
+
+#### `send_twilio_text()` takes in:
+```python
+send_twilio_text(RECIPIENT_PHONE_NUMBER: str, MESSAGE) -> None
+```
+If you want to send a text message, call `send_twilio_text()` like this:
+```python
+send_twilio_text("recipient_phone_number", "message")
+```
+e.g.
+```python
+send_twilio_text("+15555555555", "Beep boop beep bop")
+```
 
 ## Running
 
