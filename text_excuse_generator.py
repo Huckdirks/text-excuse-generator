@@ -29,12 +29,14 @@ def add_recipient(RECIPIENT: str, PHONE_NUMBER: str):
     if f"{NEW_RECIPIENT.upper()}_PHONE_NUMBER" in lines:
         print(f"Error: Recipient \'{NEW_RECIPIENT}\' already exists in .env file! Manually edit the .env file if you want to change the phone number.")
         return False
+    
     index = lines.index("# Phone Numbers to text\n")
     lines.insert(index + 1, f"{NEW_RECIPIENT.upper()}_PHONE_NUMBER = \"{PHONE_NUMBER}\"\n")
 
     with open("personal_info.env", "w") as file:
         file.writelines(lines)
         print(f"Added recipient \'{NEW_RECIPIENT}\' with phone number \'{PHONE_NUMBER}\' to .env file!")
+        
     return True
 
 
@@ -89,22 +91,24 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
             return
 
     to_phone_number = ""
-    # Check if recipient is a phone number or a saved person
+    # Check if recipient is a phone number
     if (recipient[0] == '+' and recipient[1:].isnumeric()) and is_valid_number(parse(recipient)):
         to_phone_number = recipient
     elif send_text:
         recipient_formatted = recipient.replace(" ", "_")
         to_phone_number = getenv(f"{recipient_formatted.upper()}_PHONE_NUMBER")
-        if to_phone_number == None:
+        if to_phone_number == None: # If the recipient is not in the .env file
             print(f"\nError: No phone number found for recipient \'{recipient}\' in .env file!")
             if len(argv) != 1:  # If not in user input mode, exit, else ask if they want to add the recipient
                 return
-
+            
+            # Ask if they want to add the recipient
             ADD_RECIPIENT_QUESTION = input("Do you want to add this recipient to the .env file? (y/n): ")
             if not ADD_RECIPIENT_QUESTION.lower() == "y" or not ADD_RECIPIENT_QUESTION.lower() == "yes":
                 return
+            
             to_phone_number = input("Enter the phone number of the recipient: ")
-            if not add_recipient(recipient, to_phone_number):
+            if not add_recipient(recipient, to_phone_number):   # If the recipient could not be added
                 return
 
     # Create the message (AI Time!)
