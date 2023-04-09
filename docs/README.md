@@ -24,7 +24,7 @@ Recently, I came across a reddit post on [r/ProgrammerHumor](https://www.reddit.
 
 There are three main ways to interact with the program: by running it normally, by running it with command line arguments, or by importing it into another python file.
 
-Note: `Recipient` can be a name or a case sensitive phone number: e.g. `Huck` or `+15555555555`. You must also set up your .env file (more details in [Dependencies](#setting-up-env-file)).
+Note: `[recipient]` can be a name or a case sensitive phone number: e.g. `Huck` or `+15555555555`. You must also set up your .env file (more details in [Dependencies](#setting-up-env-file)).
 
 ### Running from Command Line
 
