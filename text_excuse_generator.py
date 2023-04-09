@@ -20,8 +20,8 @@ def add_recipient(RECIPIENT, PHONE_NUMBER):
     
     # Replace spaces with underscores
     NEW_RECIPIENT = RECIPIENT.replace(" ", "_")
-    
     lines = []
+    
     # Add a new user to the .env file
     with open(f"{ENV_NAME}.env", "r") as file:
         lines = file.readlines()
