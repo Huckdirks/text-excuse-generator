@@ -146,10 +146,19 @@ send_twilio_text("+15555555555", "Beep boop beep bop")
 
 #### Accounts
 
-You'll need to create a [Twilio](https://www.twilio.com/try-twilio) account to get a phone number. You can either use the free trial phone number, or pay $1/month for a real phone number, but you'll need to verify any phone numbers you want to text with the trial account. Once you get a phone number, you'll have to save the Account SID, Auth Token, and phone number in a `.env` file in the root directory. You can use the `personal_info.txt` file as a template.
+You'll need to create a [Twilio](https://www.twilio.com/try-twilio) account to get a phone number. You can either use the free trial phone number, or pay $1/month for a real phone number, but you'll need to verify any phone numbers you want to text with the trial account.
 
 You'll also need to create an [OpenAI account](https://platform.openai.com/signup) to get an [API key](https://platform.openai.com/account/api-keys). You'll also need to give payment information to OpenAI to use the API, but with the GPT-3.5-Turbo model it's **extremely cheap**: $0.002/1000 tokens: at one word, punctuation, special character, or space per token. As of right now, I've sent ~30 requests to the OpenAI API, and I've only spent $0.02 so far!
 
+Once you get these two accounts set up, you'll need to find out this information from Twilio:
+- Account SID
+- Auth Token
+- Twilio Phone Number
+
+And this information from OpenAI:
+- OpenAI API Key
+
+And then [set up the `.env` file](#setting-up-env-file-1) with this information.
 #### Install
 
 Double click [`dependencies`](../dependencies), or run `bash `[`dependencies`](../dependencies) or `./`[`dependencies`](../dependencies) in the root directory or to install the python dependencies. You must have [pip](https://pip.pypa.io/en/stable/installation/) installed to download the new dependencies. Also, you'll need to install [python](https://www.python.org/downloads/) yourself if you haven't already.
