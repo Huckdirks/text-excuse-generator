@@ -13,6 +13,9 @@ from sys import argv
 ENV_NAME = "personal_info"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
 ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
 
+# Load the .env file
+load_dotenv(ENV_PATH)
+
 
 # Save a phone number to the .env file
 def add_recipient(RECIPIENT: str, PHONE_NUMBER: str) -> bool:
@@ -42,11 +45,26 @@ def add_recipient(RECIPIENT: str, PHONE_NUMBER: str) -> bool:
     return True
 
 
+# If the -s or --send flag is given, send the text
+def send_twilio_text(TO_PHONE_NUMBER: str, MESSAGE: str) -> None:
+    TWILIO_ACCOUNT_SID = getenv("TWILIO_ACCOUNT_SID")
+    TWILIO_AUTH_TOKEN = getenv("TWILIO_AUTH_TOKEN")
+    TWILIO_PHONE_NUMBER = getenv("TWILIO_PHONE_NUMBER")
+
+    # Twilio API
+    # Sends the text
+    print("Sending text...")
+    twilio_client = twilio.rest.Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)  # Login to Twilio
+    twilio_client.messages.create(
+        to = TO_PHONE_NUMBER,
+        from_ = TWILIO_PHONE_NUMBER,
+        body = MESSAGE
+    )
+    print("Text sent!")
+
+
 # Generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
 def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excuse: str = "", send_text: bool = False) -> str:
-    # Load environment variables
-    load_dotenv(ENV_PATH)
-
     if not user or recipient or problem or excuse:  # If no parameters are given
         if len(argv) == 5 or len(argv) == 6:        # If command line arguments are given, use them
             # Load command line arguments
@@ -121,24 +139,9 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
     AI_RESPONSE = AI_QUERY.choices[0].message.content
     print(f"Chat GPT's Response:\n{AI_RESPONSE}\n")
 
-    if not send_text:   # If the -s or --send flag is not given, don't send the text and exit
-        return AI_RESPONSE
-        
-    # If the -s or --send flag is given, send the text
-    TWILIO_ACCOUNT_SID = getenv("TWILIO_ACCOUNT_SID")
-    TWILIO_AUTH_TOKEN = getenv("TWILIO_AUTH_TOKEN")
-    TWILIO_PHONE_NUMBER = getenv("TWILIO_PHONE_NUMBER")
+    if send_text:   # If the -s or --send flag is given, send the text
+        send_twilio_text(to_phone_number, AI_RESPONSE)
 
-    # Twilio API
-    # Sends the text
-    print("Sending text...")
-    twilio_client = twilio.rest.Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)  # Login to Twilio
-    twilio_client.messages.create(
-        to = to_phone_number,
-        from_ = TWILIO_PHONE_NUMBER,
-        body = AI_RESPONSE
-    )
-    print("Text sent!")
     return AI_RESPONSE
 
 

@@ -59,7 +59,7 @@ You can also import the program as a module into another python file. The `text_
 
 #### `generate_excuse()` takes in:
 ```python
-generate_excuse(USER: str, RECIPIENT: str, PROBLEM: str, EXCUSE: str, SEND_TEXT: bool)
+generate_excuse(USER: str, RECIPIENT: str, PROBLEM: str, EXCUSE: str, SEND_TEXT: bool) -> str
 ```
 `generate_excuse()` returns a string of the text message that was generated.
 
@@ -76,7 +76,7 @@ Omit the `send_text` parameter if you don't want to send the text message.
 
 #### `add_recipient()` takes in:
 ```python
-add_recipient(NAME: str, PHONE_NUMBER: str)
+add_recipient(NAME: str, PHONE_NUMBER: str) -> bool
 ```
 If you want to save a new recipient to the system, call `add_recipient()` like this:
 ```python
