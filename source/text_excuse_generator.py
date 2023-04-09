@@ -6,15 +6,34 @@ from phonenumbers import is_valid_number, parse
 
 # Python Libraries
 from os import getenv
-from os.path import dirname, join
+from os.path import dirname, join, isfile
 from sys import argv
 
 # Constants
 ENV_NAME = "personal_info"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
 ENV_PATH = join(dirname(__file__), f"{ENV_NAME}.env")
 
-# Load the .env file
-load_dotenv(ENV_PATH)
+
+# Set up .env file
+def setup_env(TWILIO_ACCOUNT_SID: str, TWILIO_AUTH_TOKEN: str, TWILIO_PHONE_NUMBER: str, OPENAI_API_KEY: str) -> bool:
+    # Check if .env file exists and not empty
+    if isfile(f"{ENV_NAME}.env"):
+        print(f"Error: \'{ENV_NAME}.env\' file already set up!")
+        return False
+    
+    if not is_valid_number(parse(TWILIO_PHONE_NUMBER)):
+        print("Error: Invalid phone number!")
+        return False
+
+    # Set up the .env file
+    lines = ["# Twilio API\n", f"TWILIO_ACCOUNT_SID = {TWILIO_ACCOUNT_SID}\n", f"TWILIO_AUTH_TOKEN = {TWILIO_AUTH_TOKEN}\n", f"TWILIO_PHONE_NUMBER = {TWILIO_PHONE_NUMBER}\n", "\n", "# OpenAI API\n", f"OPENAI_API_KEY = {OPENAI_API_KEY}\n", "\n", "# Phone Numbers to text\n"]
+
+    # Write to the .env file
+    with open(f"{ENV_NAME}.env", "w") as file:
+        file.writelines(lines)
+
+    print(f"Set up \'{ENV_NAME}.env\' file!")
+    return True
 
 
 # Save a phone number to the .env file
@@ -47,8 +66,14 @@ def add_recipient(RECIPIENT: str, PHONE_NUMBER: str) -> bool:
 
 # If the -s or --send flag is given, send the text
 def send_twilio_text(TO_PHONE_NUMBER: str, MESSAGE: str) -> None:
-    print("Sending text...")
+    if not isfile(ENV_PATH):
+        print(f"Error: \'{ENV_NAME}.env\' file not set up! Use the -e or --setup_env flag to set up the .env file")
+        return
+    
+    # Load the .env file
+    load_dotenv(ENV_PATH)
 
+    print("Sending text...")
     # Twilio API
     twilio_client = twilio.rest.Client(getenv("TWILIO_ACCOUNT_SID"), getenv("TWILIO_AUTH_TOKEN"))  # Login to Twilio
     twilio_client.messages.create(
@@ -64,7 +89,14 @@ def send_twilio_text(TO_PHONE_NUMBER: str, MESSAGE: str) -> None:
 # Generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
 def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excuse: str = "", send_text: bool = False) -> str:
     if not user or recipient or problem or excuse:  # If no parameters are given
-        if len(argv) == 5 or len(argv) == 6:        # If command line arguments are given, use them
+        if len(argv) == 4 or len(argv) == 5 or len(argv) == 6:        # If command line arguments are given, use them
+            if len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add"):  # If the -a or --add flag is given with correct parameters, and correct # of parameters are passed in
+                add_recipient(argv[2], argv[3])
+                return
+            elif (len(argv) == 6 and (argv[1].lower() == "-e" or argv[1].lower() == "--setup_env")):   # If the -e or --setup_env flag is given with correct parameters, and correct # of parameters are passed in
+                setup_env(argv[2], argv[3], argv[4], argv[5])
+                return
+            
             # Load command line arguments
             user = argv[1]
             recipient = argv[2]
@@ -77,6 +109,17 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
                 return
 
         elif len(argv) == 1:    # If no arguments are given, ask for user input
+            if not isfile(ENV_PATH):  # If the .env file is not set up, ask the user if they want to set it up
+                set_up_env_question = input(f"Error: \'{ENV_NAME}.env\' file not set up!\nDo you want to set it up now? (y/n): ")
+                if set_up_env_question.lower() == "y" or set_up_env_question.lower() == "yes":
+                    TWILIO_ACCOUNT_SID = input("Enter your Twilio Account SID: ")
+                    TWILIO_AUTH_TOKEN = input("Enter your Twilio Auth Token: ")
+                    TWILIO_PHONE_NUMBER = input("Enter your Twilio Phone Number: ")
+                    OPENAI_API_KEY = input("Enter your OpenAI API Key: ")
+                    setup_env(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER, OPENAI_API_KEY)
+                else:
+                    return
+            
             user = input("Enter who is sending the text: ")
             recipient = input("Enter who you want to text: ")
             problem = input("Enter the fake problem you are having: ")
@@ -86,9 +129,13 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
             if send_text_question.lower() == "y" or send_text_question.lower() == "yes":
                 send_text = True
 
-        elif (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add")):    # If the -a or --add flag is given with correct parameters, and correct # of parameters are passed in
-            add_recipient(argv[2], argv[3])
-            return
+        #elif (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add")):    # If the -a or --add flag is given with correct parameters, and correct # of parameters are passed in
+            #add_recipient(argv[2], argv[3])
+            #return
+        
+        #elif (len(argv) == 5 and (argv[1].lower() == "-e" or argv[1].lower() == "--setup_env")):   # If the -e or --setup_env flag is given with correct parameters, and correct # of parameters are passed in
+            #setup_env(argv[2], argv[3], argv[4])
+            #return
 
         else:   # Give info on how to use the program
             print("\nUsage: python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_flag]")
@@ -100,8 +147,17 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
             print("Or just run the program with no arguments to be prompted for input")
             print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
             print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] [recipient] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+15555555555\"\n")
+            print("To setup the .env file, run python3 text_excuse_generator.py [-e/--setup_env] [TWILIO_ACCOUNT_SID] [TWILIO_AUTH_TOKEN] [TWILIO_PHONE_NUMBER] [OPENAI_API_KEY]\n\te.g. python3 text_excuse_generator.py -e \"AC1234567890abcdef1234567890abcdef\" \"1234567890abcdef1234567890abcdef\" \"+15555555555\"\n")
             print("The prompt sent to ChatGPT is: \"Write a text message to [recipient] explaining that you [problem] because [excuse].\"\n")
             return
+
+    # If the .env file is not set up, or is empty, return   
+    if not isfile(ENV_PATH):
+        print(f"Error: \'{ENV_NAME}.env\' file not set up! Use the -e or --setup_env flag to set up the .env file")
+        return
+    
+    # Load the .env file
+    load_dotenv(ENV_PATH)
 
     to_phone_number = ""
     if (recipient[0] == '+' and recipient[1:].isnumeric()) and is_valid_number(parse(recipient)):   # Check if recipient is a phone number
