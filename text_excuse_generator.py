@@ -54,6 +54,9 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
             excuse = argv[4]
             if len(argv) == 6 and (argv[5].lower() == "-s" or argv[5].lower() == "--send"):
                 send_text = True
+            elif len(argv) == 6:
+                print("\nError: Invalid flag given! Use -s or --send to send the text")
+                return
 
         # If no arguments are given, ask for user input
         elif len(argv) == 1:
