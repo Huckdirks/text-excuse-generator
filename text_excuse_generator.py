@@ -60,7 +60,9 @@ def send_twilio_text(TO_PHONE_NUMBER: str, MESSAGE: str) -> None:
         from_ = TWILIO_PHONE_NUMBER,
         body = MESSAGE
     )
+    
     print("Text sent!")
+    return
 
 
 # Generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
