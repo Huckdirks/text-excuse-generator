@@ -59,7 +59,7 @@ You can also import the program as a module into another python file. The `text_
 
 #### `generate_excuse()` takes in:
 ```python
-generate_excuse(user: str, recipient: str, problem: str, excuse: str, send_text: bool)
+generate_excuse(USER: str, RECIPIENT: str, PROBLEM: str, EXCUSE: str, SEND_TEXT: bool)
 ```
 `generate_excuse()` returns a string of the text message that was generated. If you want to keep a field blank you must pass in an empty string `''`. 
 
