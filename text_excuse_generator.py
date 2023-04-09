@@ -47,17 +47,13 @@ def add_recipient(RECIPIENT: str, PHONE_NUMBER: str) -> bool:
 
 # If the -s or --send flag is given, send the text
 def send_twilio_text(TO_PHONE_NUMBER: str, MESSAGE: str) -> None:
-    TWILIO_ACCOUNT_SID = getenv("TWILIO_ACCOUNT_SID")
-    TWILIO_AUTH_TOKEN = getenv("TWILIO_AUTH_TOKEN")
-    TWILIO_PHONE_NUMBER = getenv("TWILIO_PHONE_NUMBER")
-
-    # Twilio API
-    # Sends the text
     print("Sending text...")
-    twilio_client = twilio.rest.Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)  # Login to Twilio
+    
+    # Twilio API
+    twilio_client = twilio.rest.Client(getenv("TWILIO_ACCOUNT_SID"), getenv("TWILIO_AUTH_TOKEN"))  # Login to Twilio
     twilio_client.messages.create(
         to = TO_PHONE_NUMBER,
-        from_ = TWILIO_PHONE_NUMBER,
+        from_ = getenv("TWILIO_PHONE_NUMBER"),
         body = MESSAGE
     )
     
