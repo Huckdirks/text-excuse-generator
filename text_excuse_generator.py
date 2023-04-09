@@ -93,7 +93,8 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
     if (recipient[0] == '+' and recipient[1:].isnumeric()) and phonenumbers.is_valid_number(phonenumbers.parse(recipient)):
         to_phone_number = recipient
     elif send_text:
-        to_phone_number = os.getenv(f"{recipient.upper()}_PHONE_NUMBER")
+        recipient_formatted = recipient.replace(" ", "_")
+        to_phone_number = os.getenv(f"{recipient_formatted.upper()}_PHONE_NUMBER")
         if to_phone_number == None:
             print(f"\nError: No phone number found for recipient \'{recipient}\' in .env file!")
             if len(argv) != 1:  # If not in user input mode, exit, else ask if they want to add the recipient
