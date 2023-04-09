@@ -26,8 +26,8 @@ def add_recipient(RECIPIENT, PHONE_NUMBER):
     with open(f"{ENV_NAME}.env", "r") as file:
         lines = file.readlines()
 
-    if f"{NEW_RECIPIENT.upper()}_PHONE_NUMBER = \"{PHONE_NUMBER}\"\n" in lines:
-        print(f"Error: Recipient \'{NEW_RECIPIENT}\' already exists in .env file!")
+    if f"{NEW_RECIPIENT.upper()}_PHONE_NUMBER" in lines:
+        print(f"Error: Recipient \'{NEW_RECIPIENT}\' already exists in .env file! Manually edit the .env file if you want to change the phone number.")
         return False
     index = lines.index("# Phone Numbers to text\n")
     lines.insert(index + 1, f"{NEW_RECIPIENT.upper()}_PHONE_NUMBER = \"{PHONE_NUMBER}\"\n")
