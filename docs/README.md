@@ -49,8 +49,11 @@ If you want to send a text with command line arguments, run:
 ```bash
 python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_text_flag]
 ```
-e.g. `python3 text_excuse_generator.py Me "Your mom" "I'm late to 😈" "Too many wizards around" -s`
-Omit the `--send_text_flag` if you don't want to send the text message.
+e.g.
+```bash
+python3 text_excuse_generator.py Me "Your mom" "I'm late to 😈" "Too many wizards around" -s
+```
+Omit the `[--send_text_flag]` if you don't want to send the text message.
 
 #### **Saving a New Recipient**
 
@@ -59,7 +62,10 @@ If you want to save a new recipient to the system, run:
 python3 text_excuse_generator.py --add [name] [phone_number]
 ```
 
-e.g. `python3 text_excuse_generator.py -a "Your mom" +15555555555`
+e.g.
+```bash
+python3 text_excuse_generator.py -a "Your mom" +15555555555
+```
 
 ### Importing as a Module
 
@@ -80,7 +86,7 @@ e.g.
 ```python
 generate_excuse("me", "your mom", "I'm late to 😈", "Too many wizards around", True)
 ```
-Omit the `send_text` parameter if you don't want to send the text message.
+Omit the `[--send_text_flag]` if you don't want to send the text message.
 
 #### `add_recipient()` takes in:
 ```python
