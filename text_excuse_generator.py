@@ -69,12 +69,12 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
             if send_text_question.lower() == "y" or send_text_question.lower() == "yes":
                 send_text = True
 
-        # If the -a or --add flag is given with correct parameters, or if correct parameters passed in=
+        # If the -a or --add flag is given with correct parameters, and correct # of parameters are passed in
         elif (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add")):
             add_recipient(argv[2], argv[3])
             return
 
-        # Else, give info on how to use the program
+        # Give info on how to use the program
         else:
             print("\nUsage: python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_flag]")
             print("\tsender: The person who is sending the text")
