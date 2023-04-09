@@ -111,14 +111,14 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
         elif len(argv) == 1:    # If no arguments are given, ask for user input
             if not isfile(ENV_PATH):  # If the .env file is not set up, ask the user if they want to set it up
                 set_up_env_question = input(f"Error: \'{ENV_NAME}.env\' file not set up!\nDo you want to set it up now? (y/n): ")
-                if set_up_env_question.lower() == "y" or set_up_env_question.lower() == "yes":
-                    TWILIO_ACCOUNT_SID = input("Enter your Twilio Account SID: ")
-                    TWILIO_AUTH_TOKEN = input("Enter your Twilio Auth Token: ")
-                    TWILIO_PHONE_NUMBER = input("Enter your Twilio Phone Number: ")
-                    OPENAI_API_KEY = input("Enter your OpenAI API Key: ")
-                    setup_env(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER, OPENAI_API_KEY)
-                else:
+                if not set_up_env_question.lower() == "y" or not set_up_env_question.lower() == "yes":
                     return
+                
+                TWILIO_ACCOUNT_SID = input("Enter your Twilio Account SID: ")
+                TWILIO_AUTH_TOKEN = input("Enter your Twilio Auth Token: ")
+                TWILIO_PHONE_NUMBER = input("Enter your Twilio Phone Number: ")
+                OPENAI_API_KEY = input("Enter your OpenAI API Key: ")
+                setup_env(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER, OPENAI_API_KEY)
             
             user = input("Enter who is sending the text: ")
             recipient = input("Enter who you want to text: ")
