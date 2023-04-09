@@ -69,7 +69,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
         # If the -a or --add flag is given with correct parameters, or if correct parameters passed in=
         elif (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add")):
             add_recipient(argv[2], argv[3])
-            exit()
+            return
 
         # Else, give info on how to use the program
         else:
@@ -83,7 +83,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
             print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
             print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] [recipient] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+1 555 555 5555\"\n")
             print("The prompt sent to ChatGPT is: \"Write a text message to {recipient} explaining that you {problem} because {excuse}.\"\n")
-            exit()
+            return
 
     to_phone_number = ""
     # Check if recipient is a phone number or a saved person
@@ -94,13 +94,14 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
         if to_phone_number == None:
             print(f"\nError: No phone number found for recipient \'{recipient}\' in .env file!")
             if len(argv) != 1:  # If not in user input mode, exit, else ask if they want to add the recipient
-                exit()
+                return
 
             ADD_RECIPIENT_QUESTION = input("Do you want to add this recipient to the .env file? (y/n): ")
             if not ADD_RECIPIENT_QUESTION.lower() == "y" or not ADD_RECIPIENT_QUESTION.lower() == "yes":
-                exit()
-
-            add_recipient(recipient, input("Enter the phone number of the recipient: "))
+                return
+            to_phone_number = input("Enter the phone number of the recipient: ")
+            if not add_recipient(recipient, to_phone_number):
+                return
 
     # Create the message (AI Time!)
     CHATGPT_CONTEXT = f"Write a text message to {recipient} explaining that you {problem} because {excuse}. Also start the message by stating this is {user}, and end the message by telling the recipient to text my actual phone number back if you really need me."
