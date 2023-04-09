@@ -92,7 +92,7 @@ add_recipient("Your Mom", "+15555555555")
 
 You'll need to create a [Twilio](https://www.twilio.com/try-twilio) account to get a phone number. You can either use the free trial phone number, or pay $1/month for a real phone number, but you'll need to verify any phone numbers you want to text with the trial account. Once you get a phone number, you'll have to save the Account SID, Auth Token, and phone number in a `.env` file in the root directory. You can use the `personal_info.txt` file as a template.
 
-You'll also need to create an [OpenAI account](https://platform.openai.com/signup) to get an [API key](https://platform.openai.com/account/api-keys). You'll also need to give payment information to OpenAI to use the API, but with the GPT-3.5-Turbo model it's **extremely cheap**: $0.002/1000 tokens: at one word, punctuation, special character, or space per token.
+You'll also need to create an [OpenAI account](https://platform.openai.com/signup) to get an [API key](https://platform.openai.com/account/api-keys). You'll also need to give payment information to OpenAI to use the API, but with the GPT-3.5-Turbo model it's **extremely cheap**: $0.002/1000 tokens: at one word, punctuation, special character, or space per token. As of right now, I've sent ~30 requests to the OpenAI API, and I've only spent $0.02 so far!
 
 #### Install
 
