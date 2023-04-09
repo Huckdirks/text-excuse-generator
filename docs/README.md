@@ -100,7 +100,7 @@ You'll also need to create an [OpenAI account](https://platform.openai.com/signu
 
 #### Install
 
-Double click `dependencies`, or run `bash dependencies` or `./dependencies` in the root directory or to install the python dependencies. You must have [pip](https://pip.pypa.io/en/stable/installation/) installed to download the new dependencies. Also, you'll need to install [python](https://www.python.org/downloads/) yourself if you haven't already.
+Double click [`dependencies`](../dependencies), or run `bash dependencies` or `./dependencies` in the root directory or to install the python dependencies. You must have [pip](https://pip.pypa.io/en/stable/installation/) installed to download the new dependencies. Also, you'll need to install [python](https://www.python.org/downloads/) yourself if you haven't already.
 
 **[List of Dependencies](DEPENDENCIES.md)**
 
