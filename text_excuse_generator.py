@@ -85,7 +85,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
             print("Or just run the program with no arguments to be prompted for input")
             print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
             print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] [recipient] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+1 555 555 5555\"\n")
-            print("The prompt sent to ChatGPT is: \"Write a text message to {recipient} explaining that you {problem} because {excuse}.\"\n")
+            print("The prompt sent to ChatGPT is: \"Write a text message to [recipient] explaining that you [problem] because [excuse].\"\n")
             return
 
     to_phone_number = ""
