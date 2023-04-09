@@ -1,7 +1,7 @@
 # Libraries
 from dotenv import load_dotenv
 import openai   # I would just import the necessary functions, but api_key is too generic of a name, so I'm gonna keep the OpenAI namespace
-from twilio.rest import Client
+import twilio.rest
 from phonenumbers import is_valid_number, parse
 from os import getenv
 from os.path import dirname, join
@@ -121,6 +121,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
     AI_RESPONSE = AI_QUERY.choices[0].message.content
     print(f"Chat GPT's Response:\n{AI_RESPONSE}\n")
 
+    # If the -s or --send flag is not given, don't send the text and exit
     if not send_text:
         return AI_RESPONSE
         
@@ -133,7 +134,7 @@ def generate_excuse(user = "", recipient = "", problem = "", excuse = "", send_t
     # Twilio API
     # Sends the text
     print("Sending text...")
-    twilio_client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)  # Login to Twilio
+    twilio_client = twilio.rest.Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)  # Login to Twilio
     twilio_client.messages.create(
         to = to_phone_number,
         from_ = TWILIO_PHONE_NUMBER,
