@@ -104,7 +104,7 @@ add_recipient("Your Mom", "+15555555555")
 
 #### `send_twilio_text()` takes in:
 ```python
-send_twilio_text(RECIPIENT_PHONE_NUMBER: str, MESSAGE) -> None
+send_twilio_text(RECIPIENT_PHONE_NUMBER: str, MESSAGE: str) -> None
 ```
 If you want to send a text message, call `send_twilio_text()` like this:
 ```python
