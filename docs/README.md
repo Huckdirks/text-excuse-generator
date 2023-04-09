@@ -61,7 +61,7 @@ You can also import the program as a module into another python file. The `text_
 ```python
 generate_excuse(USER: str, RECIPIENT: str, PROBLEM: str, EXCUSE: str, SEND_TEXT: bool)
 ```
-`generate_excuse()` returns a string of the text message that was generated. If you want to keep a field blank you must pass in an empty string `''`. 
+`generate_excuse()` returns a string of the text message that was generated.
 
 If you want to generate a text message, call the function like this:
 
