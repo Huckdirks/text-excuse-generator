@@ -47,10 +47,8 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
     # Load environment variables
     load_dotenv(ENV_PATH)
 
-    # If no parameters are given
-    if not user or recipient or problem or excuse:
-        # If command line arguments are given, use them
-        if len(argv) == 5 or len(argv) == 6:
+    if not user or recipient or problem or excuse:  # If no parameters are given
+        if len(argv) == 5 or len(argv) == 6:        # If command line arguments are given, use them
             # Load command line arguments
             user = argv[1]
             recipient = argv[2]
@@ -62,8 +60,7 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
                 print("\nError: Invalid flag given! Use -s or --send to send the text")
                 return
 
-        # If no arguments are given, ask for user input
-        elif len(argv) == 1:
+        elif len(argv) == 1:    # If no arguments are given, ask for user input
             user = input("Enter who is sending the text: ")
             recipient = input("Enter who you want to text: ")
             problem = input("Enter the fake problem you are having: ")
@@ -73,13 +70,11 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
             if send_text_question.lower() == "y" or send_text_question.lower() == "yes":
                 send_text = True
 
-        # If the -a or --add flag is given with correct parameters, and correct # of parameters are passed in
-        elif (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add")):
+        elif (len(argv) == 4 and (argv[1].lower() == "-a" or argv[1].lower() == "--add")):    # If the -a or --add flag is given with correct parameters, and correct # of parameters are passed in
             add_recipient(argv[2], argv[3])
             return
 
-        # Give info on how to use the program
-        else:
+        else:   # Give info on how to use the program
             print("\nUsage: python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_flag]")
             print("\tsender: The person who is sending the text")
             print("\trecipient: The person you want to text (can be saved person or a phone number)")
@@ -93,8 +88,7 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
             return
 
     to_phone_number = ""
-    # Check if recipient is a phone number
-    if (recipient[0] == '+' and recipient[1:].isnumeric()) and is_valid_number(parse(recipient)):
+    if (recipient[0] == '+' and recipient[1:].isnumeric()) and is_valid_number(parse(recipient)):   # Check if recipient is a phone number
         to_phone_number = recipient
     elif send_text:
         recipient_formatted = recipient.replace(" ", "_")
@@ -127,12 +121,10 @@ def generate_excuse(user: str = "", recipient: str = "", problem: str = "", excu
     AI_RESPONSE = AI_QUERY.choices[0].message.content
     print(f"Chat GPT's Response:\n{AI_RESPONSE}\n")
 
-    # If the -s or --send flag is not given, don't send the text and exit
-    if not send_text:
+    if not send_text:   # If the -s or --send flag is not given, don't send the text and exit
         return AI_RESPONSE
         
     # If the -s or --send flag is given, send the text
-
     TWILIO_ACCOUNT_SID = getenv("TWILIO_ACCOUNT_SID")
     TWILIO_AUTH_TOKEN = getenv("TWILIO_AUTH_TOKEN")
     TWILIO_PHONE_NUMBER = getenv("TWILIO_PHONE_NUMBER")
