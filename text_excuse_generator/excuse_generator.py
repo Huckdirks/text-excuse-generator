@@ -5,7 +5,7 @@ import twilio.rest
 from phonenumbers import is_valid_number, parse
 
 # Python Libraries
-from os import getenv
+from os import getenv, system
 from os.path import dirname, join, isfile
 from sys import argv
 
@@ -88,7 +88,7 @@ def send_twilio_text(TO_PHONE_NUMBER: str, MESSAGE: str) -> None:
 
 # Generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
 def generate_excuse(**kwargs) -> (str | None):
-    if kwargs:  # If parameters are passed in
+    if kwargs and ("user" in kwargs and "recipient" in kwargs and "problem" in kwargs and "excuse" in kwargs):  # If parameters are passed in
         USER = kwargs["user"]
         RECIPIENT = kwargs["recipient"]
         PROBLEM = kwargs["problem"]
@@ -142,7 +142,13 @@ def generate_excuse(**kwargs) -> (str | None):
             SEND_TEXT = True
 
     else:   # Give info on how to use the program if the wrong # of parameters are given
-        print("\nUsage: python3 text_excuse_generator.py [SENDER] [SENDER] [SENDER] [SENDER] [--send_flag]")
+        system("clear")
+        print("\nYou can provide these parameters in one of two ways:")
+        print("\t1. As command line arguments")
+        print("\tUsage: python3 text_excuse_generator.py [SENDER] [RECIPIENT] [PROBLEM] [EXCUSE] [--send_flag]\n\te.g. python3 text_excuse_generator.py \"John Doe\" \"Jane Doe\" \"Gonna miss dinner\" \"I'm sick\" -s")
+        print("\n\t2. As parameters in a function call")
+        print("\tUsage: generate_excuse(user = \"USER\", recipient = \"RECIPIENT\", problem = \"INSERT PROBLEM HERE\", excuse = \"INSERT EXCUSE HERE\", send_text = BOOL)\n\te.g. generate_excuse(user = \"John Doe\", recipient = \"Jane Doe\", problem = \"Gonna miss dinner\", excuse = \"I'm sick\", send_text = True)")
+        print("\nThis function takes 4 required parameters and 1 optional parameter:")
         print("\tsender: The person who is sending the text")
         print("\trecipient: The person you want to text (can be saved person or a phone number)")
         print("\tproblem: The \"problem\" you are having")
@@ -150,9 +156,20 @@ def generate_excuse(**kwargs) -> (str | None):
         print("\t--send_flag: If you want to send the text, add -s or --send. If you don't want to send the text, omit this flag\n")
         print("Or just run the program with no arguments to be prompted for input")
         print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
-        print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] [RECIPIENT] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+15555555555\"\n")
-        print("To setup the .env file, run python3 text_excuse_generator.py [-e/--setup_env] [TWILIO_ACCOUNT_SID] [TWILIO_AUTH_TOKEN] [TWILIO_PHONE_NUMBER] [OPENAI_API_KEY]\n\te.g. python3 text_excuse_generator.py -e \"AC1234567890abcdef1234567890abcdef\" \"1234567890abcdef1234567890abcdef\" \"+15555555555\" \"1234567890abcdef1234567890abcdef\"\n")
-        print("The prompt sent to ChatGPT is: \"Write a text message to [RECIPIENT] explaining that you [PROBLEM] because [EXCUSE]. Also start the message by stating this is [USER], and end the message by telling the recipient to text my actual phone number back if you really need me.\"\n")
+        print("\nYou can also add new recipients to the .env file in one of two ways:")
+        print("\t1. As command line arguments")
+        print("\tUsage: python3 text_excuse_generator.py [-a/--add] [RECIPIENT] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+15555555555\"")
+        print("\n\t2. As parameters in a function call")
+        print("\tUsage: add_recipient(\"RECIPIENT\", \"PHONE_NUMBER\")\n\te.g. add_recipient(\"John Doe\", \"+15555555555\")")
+        print("\nThis function takes 2 required parameters:")
+        print("\trecipient: The person you want to text (can be saved person or a phone number)")
+        print("\tphone_number: The phone number you want to text the recipient at")
+        print("\nYou can also set up the .env file in one of two ways:")
+        print("\t1. As command line arguments")
+        print("\tUsage: python3 text_excuse_generator.py [-e/--setup_env] [TWILIO_ACCOUNT_SID] [TWILIO_AUTH_TOKEN] [TWILIO_PHONE_NUMBER] [OPENAI_API_KEY]\n\te.g. python3 text_excuse_generator.py -e \"AC1234567890abcdef1234567890abcdef\" \"1234567890abcdef1234567890abcdef\" \"+15555555555\" \"sk-1234567890abcdef1234567890abcdef\"")
+        print("\n\t2. As parameters in a function call")
+        print("\tUsage: setup_env(\"TWILIO_ACCOUNT_SID\", \"TWILIO_AUTH_TOKEN\", \"TWILIO_PHONE_NUMBER\", \"OPENAI_API_KEY\")\n\te.g. setup_env(\"AC1234567890abcdef1234567890abcdef\", \"1234567890abcdef1234567890abcdef\", \"+15555555555\", \"sk-1234567890abcdef1234567890abcdef\")")
+        print("\nThe prompt sent to ChatGPT is: \"Write a text message to [RECIPIENT] explaining that you [PROBLEM] because [EXCUSE]. Also start the message by stating this is [USER], and end the message by telling the recipient to text my actual phone number back if you really need me.\"\n")
         return
         
 
