@@ -141,7 +141,8 @@ def generate_excuse(**kwargs) -> (str | None):
         if send_text_question.lower() == "y" or send_text_question.lower() == "yes":
             SEND_TEXT = True
 
-    else:   # Give info on how to use the program if the wrong # of parameters are given
+    else:
+        # Give info on how to use the program if the wrong # of parameters are given
         system("clear")
         print("\nYou can provide these parameters in one of two ways:")
         print("\t1. As command line arguments")
