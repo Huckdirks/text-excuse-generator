@@ -52,7 +52,7 @@ You can also run the program with command line arguments. If you want to send th
 
 If you want to send a text with command line arguments, run:
 ```bash
-python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_text_flag]
+python3 text_excuse_generator.py [SENDER] [RECIPIENT] [PROBLEM] [EXCUSE] [--send_text_flag]
 ```
 e.g.
 ```bash
@@ -74,7 +74,7 @@ python3 text_excuse_generator.py -e "AC1234567890" "1234567890" "+15555555555" "
 
 If you want to save a new recipient to the system, run:
 ```bash
-python3 text_excuse_generator.py [-a/--add] [name] [phone_number]
+python3 text_excuse_generator.py [-a/--add] [NAME] [PHONE_NUMBER]
 ```
 e.g.
 ```bash
@@ -198,7 +198,7 @@ Either run the program without any arguments to manually input the information f
 
 **YOU HAVE TO INSTALL THE DEPENDENCIES & SETUP THE `.env` FILE BEFORE TRYING TO RUN THE PROGRAM!!!**
 
-Run `python3 text_excuse_generator.py` or `python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_text_flag]` in the command line in the source directory.
+Run `python3 text_excuse_generator.py` or `python3 text_excuse_generator.py [SENDER] [RECIPIENT] [PROBLEM] [EXCUSE] [--send_text_flag]` in the command line in the source directory.
 
 More detailed instructions are in the [Uses](#uses) section.
 

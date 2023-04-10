@@ -142,7 +142,7 @@ def generate_excuse(**kwargs) -> str:
             SEND_TEXT = True
 
     else:   # Give info on how to use the program if the wrong # of parameters are given
-        print("\nUsage: python3 text_excuse_generator.py [sender] [recipient] [problem] [excuse] [--send_flag]")
+        print("\nUsage: python3 text_excuse_generator.py [SENDER] [SENDER] [SENDER] [SENDER] [--send_flag]")
         print("\tsender: The person who is sending the text")
         print("\trecipient: The person you want to text (can be saved person or a phone number)")
         print("\tproblem: The \"problem\" you are having")
@@ -150,9 +150,9 @@ def generate_excuse(**kwargs) -> str:
         print("\t--send_flag: If you want to send the text, add -s or --send. If you don't want to send the text, omit this flag\n")
         print("Or just run the program with no arguments to be prompted for input")
         print("Put any parameters longer than a single word in quotes, e.g. \"I'm sick\"\n")
-        print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] [recipient] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+15555555555\"\n")
+        print("To add a new recipient to the .env file, run python3 text_excuse_generator.py [-a/--add] [RECIPIENT] [PHONE_NUMBER]\n\te.g. python3 text_excuse_generator.py -a \"John Doe\" \"+15555555555\"\n")
         print("To setup the .env file, run python3 text_excuse_generator.py [-e/--setup_env] [TWILIO_ACCOUNT_SID] [TWILIO_AUTH_TOKEN] [TWILIO_PHONE_NUMBER] [OPENAI_API_KEY]\n\te.g. python3 text_excuse_generator.py -e \"AC1234567890abcdef1234567890abcdef\" \"1234567890abcdef1234567890abcdef\" \"+15555555555\" \"1234567890abcdef1234567890abcdef\"\n")
-        print("The prompt sent to ChatGPT is: \"Write a text message to [recipient] explaining that you [problem] because [excuse].\"\n")
+        print("The prompt sent to ChatGPT is: \"Write a text message to [RECIPIENT] explaining that you [PROBLEM] because [EXCUSE]. Also start the message by stating this is [USER], and end the message by telling the recipient to text my actual phone number back if you really need me.\"\n")
         return
         
 
