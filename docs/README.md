@@ -89,7 +89,7 @@ You can also import the program as a module into another python file. The `text_
 
 Simply run:
 ```bash
-pip install text-excuse-generator
+pip install text-excuse-generator==1.1.0
 ```
 To import the module into your python file, put this at the top of your file:
 ```python
@@ -184,7 +184,7 @@ Double click [`dependencies`](../dependencies), or run `bash `[`dependencies`](.
 
 If you just run:
 ```bash
-pip install text-excuse-generator
+pip install text-excuse-generator==1.1.0
 ```
 The dependencies will be installed automatically, along with the rest of the module!
 
