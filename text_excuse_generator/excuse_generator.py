@@ -16,7 +16,6 @@ ENV_PATH = join(dirname(__file__), ENV_NAME)
 
 # Set up .env file
 def setup_env(TWILIO_ACCOUNT_SID: str, TWILIO_AUTH_TOKEN: str, TWILIO_PHONE_NUMBER: str, OPENAI_API_KEY: str) -> bool:
-    print(ENV_PATH)
     # Check if .env file exists and not empty
     if isfile(ENV_PATH):
         print(f"Error: \'{ENV_NAME}\' file already set up!")
@@ -174,16 +173,16 @@ def generate_excuse(**kwargs) -> str:
         to_phone_number = getenv(f"{RECIPIENT_FORMATTED.upper()}_PHONE_NUMBER")
         if to_phone_number == None: # If the recipient is not in the .env file
             print(f"\nError: No phone number found for recipient \'{RECIPIENT}\' in .env file!")
-            if len(argv) != 1:  # If not in user input mode, exit, else ask if they want to add the recipient
+            if len(argv) != 1 or not len(kwargs) == 0:  # If not in user input mode, exit, else ask if they want to add the recipient
                 return
             
             # Ask if they want to add the recipient
             ADD_RECIPIENT_QUESTION = input("Do you want to add this recipient to the .env file? (y/n): ")
-            if not ADD_RECIPIENT_QUESTION.lower() == "y" or not ADD_RECIPIENT_QUESTION.lower() == "yes":
-                return
-            
-            to_phone_number = input("Enter the phone number of the recipient: ")
-            if not add_recipient(RECIPIENT, to_phone_number):   # If the recipient could not be added
+            if ADD_RECIPIENT_QUESTION.lower() == "y" or ADD_RECIPIENT_QUESTION.lower() == "yes":
+                to_phone_number = input("Enter the phone number of the recipient: ")
+                if not add_recipient(RECIPIENT, to_phone_number):   # If the recipient could not be added
+                    return
+            else:
                 return
 
     # Create the message (AI Time!)
