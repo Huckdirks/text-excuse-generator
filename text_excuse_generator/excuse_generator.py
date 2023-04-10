@@ -87,7 +87,7 @@ def send_twilio_text(TO_PHONE_NUMBER: str, MESSAGE: str) -> None:
 
 
 # Generate an excuse and text it to a recipient. If no parameters are given, either by being passed in or given via the Command Line, it will prompt the user for input
-def generate_excuse(**kwargs) -> str:
+def generate_excuse(**kwargs) -> (str | None):
     if kwargs:  # If parameters are passed in
         USER = kwargs["user"]
         RECIPIENT = kwargs["recipient"]

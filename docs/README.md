@@ -99,9 +99,10 @@ Or you can import the individual functions.
 
 #### `generate_excuse()` takes in:
 ```python
-generate_excuse(USER: str, RECIPIENT: str, PROBLEM: str, EXCUSE: str, SEND_TEXT: bool) -> str
+generate_excuse(USER: str, RECIPIENT: str, PROBLEM: str, EXCUSE: str, SEND_TEXT: bool) -> (str | None)
 ```
-`generate_excuse()` returns a string of the text message that was generated.
+```
+`generate_excuse()` returns a string of the text message that was generated, or None if unable to generate the text message.
 
 If you want to generate a text message, call the function like this:
 
