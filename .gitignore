@@ -1,6 +1,9 @@
 # Directories
-source/__pycache__
+__pycache__/
 .vscode/
+text_excuse_generator.egg-info/
+dist/
+build/
 
 # Files
 .DS_Store

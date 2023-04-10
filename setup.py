@@ -9,7 +9,6 @@ with open(README_PATH, "r") as fh:
 
 setup(
     name = "text_excuse_generator",
-    version = "1.0.0",
     author = "Huck Dirksmeier",
     author_email = "Huckdirks@gmail.com",
     description = "Uses Open AI's GPT-3.5 model to create an excuse from given parameters & text it",

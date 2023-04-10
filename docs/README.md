@@ -10,6 +10,7 @@
         - [Setting Up .env File](#setting-up-env-file)
         - [Saving a New Recipient](#saving-a-new-recipient)
     - [Importing as a Module](#importing-as-a-module)
+        - [Installing with pip](#installing-with-pip)
         - [`generate_excuse()`](#generate_excuse-takes-in)
         - [`setup_env()`](#setup_env-takes-in)
         - [`add_recipient()`](#add_recipient-takes-in)
@@ -35,15 +36,17 @@ Note: `[recipient]` can be a name or a case sensitive phone number: e.g. `Huck` 
 
 ### Running from Command Line
 
+I'd recommend just downloading [excuse_generator.py](../text_excuse_generator/excuse_generator.py) and running it from the command line. You can run it by typing:
 ```bash
 python3 text_excuse_generator.py
 ```
+If you just want the [excuse_generator.py](../text_excuse_generator/excuse_generator.py) file for a project, please also include the [LICENSE](../LICENSE) file in the same directory as [excuse_generator.py](../text_excuse_generator/excuse_generator.py).
 
 When you run the program normally, it will ask you for the sender, recipient, problem, and excuse, and if you want to send the text message. It will then generate a text message, and send it to the recipient if chosen. If you input a name into recipient that isn't saved to the system yet when sending a text, it will ask you if you want to save it to the system. If you choose to save it, it will ask you for the phone number, and then save it to the system. You can also just use a phone number for the recipient field, and it will send the text to that number.
 
 ### Running with Command Line Arguments
 
-You can also run the program with command line arguments. If you want to send the text message, you can add `--send` or `-s` as the last argument. All command line arguments longer than a single word need to be in parentheses.
+You can also run the program with command line arguments. If you want to send the text message, you can add `--send` or `-s` as the last argument. All command line arguments longer than a single word need to be in parentheses. I'd recommend just downloading [excuse_generator.py](../text_excuse_generator/excuse_generator.py) and running it from the command line. If you just want the [excuse_generator.py](../text_excuse_generator/excuse_generator.py) file for a project, please also include the [LICENSE](../LICENSE) file in the same directory as [excuse_generator.py](../text_excuse_generator/excuse_generator.py).
 
 #### **Sending a Text Message**
 
@@ -82,6 +85,18 @@ python3 text_excuse_generator.py -a "Your mom" +15555555555
 
 You can also import the program as a module into another python file. The `text_excuse_generator` module has  four functions: `generate_excuse()`, `setup_env()`, `add_recipient()`, & `send_twilio_text()`.
 
+#### Installing with pip
+
+Simply run:
+```bash
+pip install text-excuse-generator
+```
+To import the module into your python file, put this at the top of your file:
+```python
+from text_excuse_generator.excuse_generator import *
+```
+Or you can import the individual functions.
+
 #### `generate_excuse()` takes in:
 ```python
 generate_excuse(USER: str, RECIPIENT: str, PROBLEM: str, EXCUSE: str, SEND_TEXT: bool) -> str
@@ -95,9 +110,9 @@ generate_excuse("user", "recipient", "problem", "excuse", True)
 ```
 e.g.
 ```python
-generate_excuse("me", "your mom", "I'm late to 😈", "Too many wizards around", True)
+generate_excuse(user = "me", recipient = "your mom", problem = "I'm late to 😈", excuse = "Too many wizards around", send_text = True)
 ```
-Omit the `[--send_text_flag]` if you don't want to send the text message.
+Make sure to put the fields before the variables when calling the function. Omit the `[--send_text_flag]` if you don't want to send the text message.
 
 #### `setup_env()` takes in:
 ```python
@@ -161,7 +176,17 @@ And this information from OpenAI:
 And then [set up the `.env` file](#setting-up-env-file-1) with this information.
 #### Install
 
+##### For Command Line Use
+
 Double click [`dependencies`](../dependencies), or run `bash `[`dependencies`](../dependencies) or `./`[`dependencies`](../dependencies) in the root directory or to install the python dependencies. You must have [pip](https://pip.pypa.io/en/stable/installation/) installed to download the new dependencies. Also, you'll need to install [python](https://www.python.org/downloads/) yourself if you haven't already.
+
+##### For Importing as a Module
+
+If you just run:
+```bash
+pip install text-excuse-generator
+```
+The dependencies will be installed automatically, along with the rest of the module!
 
 **[List of Dependencies](DEPENDENCIES.md)**
 
