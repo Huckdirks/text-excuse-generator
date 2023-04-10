@@ -59,8 +59,8 @@ def add_recipient(RECIPIENT: str, PHONE_NUMBER: str) -> bool:
 
     with open("personal_info.env", "w") as file:
         file.writelines(lines)
-        print(f"Added recipient \'{NEW_RECIPIENT}\' with phone number \'{PHONE_NUMBER}\' to .env file!")
 
+    print(f"Added recipient \'{NEW_RECIPIENT}\' with phone number \'{PHONE_NUMBER}\' to .env file!")
     return True
 
 

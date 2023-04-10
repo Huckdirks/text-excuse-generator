@@ -7,5 +7,6 @@ build/
 
 # Files
 .DS_Store
-personal_info.env
+*.env
 setup.py
+pip_exporter.py
