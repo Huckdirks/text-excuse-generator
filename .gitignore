@@ -10,3 +10,4 @@ build/
 *.env
 setup.py
 pip_exporter.py
+__init__.py
