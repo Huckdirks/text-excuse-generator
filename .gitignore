@@ -8,3 +8,4 @@ build/
 # Files
 .DS_Store
 personal_info.env
+setup.py
