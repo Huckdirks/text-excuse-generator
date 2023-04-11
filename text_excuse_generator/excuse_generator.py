@@ -118,7 +118,7 @@ def generate_excuse(**kwargs) -> (str | None):
             print("\nError: Invalid flag given! Use -s or --send to send the text")
             return
 
-    elif len(argv) == 1:    # If no arguments are given, ask for user input
+    elif len(argv) == 1 and not kwargs:    # If no arguments are given, ask for user input
         if not isfile(ENV_PATH):  # If the .env file is not set up, ask the user if they want to set it up
             set_up_env_question = input(f"Error: \'{ENV_NAME}\' file not set up!\nDo you want to set it up now? (y/n): ")
             if set_up_env_question.lower() == "y" or set_up_env_question.lower() == "yes":
