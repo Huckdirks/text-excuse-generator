@@ -52,7 +52,7 @@ You can also run the program with command line arguments. If you want to send th
 
 If you want to send a text with command line arguments, run:
 ```bash
-python3 text_excuse_generator.py [SENDER] [RECIPIENT] [PROBLEM] [EXCUSE] [--send_text_flag]
+python3 text_excuse_generator.py SENDER RECIPIENT PROBLEM EXCUSE [--send_text_flag]
 ```
 e.g.
 ```bash
@@ -63,7 +63,7 @@ Omit the `[--send_text_flag]` if you don't want to send the text message.
 #### **Setting Up .env File**
 If you want to set up the .env file, run:
 ```bash
-python3 text_excuse_generator.py [-e/--setup_env] [TWILIO_ACCOUNT_SID] [TWILIO_AUTH_TOKEN] [TWILIO_PHONE_NUMBER] [OPENAI_API_KEY]
+python3 text_excuse_generator.py -e/--setup_env TWILIO_ACCOUNT_SID TWILIO_AUTH_TOKEN TWILIO_PHONE_NUMBER [OPENAI_API_KEY]
 ```
 e.g.
 ```bash
@@ -74,7 +74,7 @@ python3 text_excuse_generator.py -e "AC1234567890" "1234567890" "+15555555555" "
 
 If you want to save a new recipient to the system, run:
 ```bash
-python3 text_excuse_generator.py [-a/--add] [NAME] [PHONE_NUMBER]
+python3 text_excuse_generator.py -a/--add NAME PHONE_NUMBER
 ```
 e.g.
 ```bash
