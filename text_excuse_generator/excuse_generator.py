@@ -144,8 +144,10 @@ def generate_excuse(**kwargs) -> (str | None):
     else:
         # Give info on how to use the program if the wrong # of parameters are given
         system("clear")
-        print("\nYou can provide these parameters in one of two ways:")
-        print("\t1. As command line arguments")
+        print("\nExcuse Generator Help:")
+        print("\nThis program generates an excuse for you to send to someone. It uses the OpenAI API to generate the excuse, and the Twilio API to send the text.")
+        print("\nThe program can be called in one of two ways:")
+        print("\t1. From the command line (arguments are optional)")
         print("\tUsage: python3 text_excuse_generator.py [SENDER] [RECIPIENT] [PROBLEM] [EXCUSE] [--send_flag]\n\te.g. python3 text_excuse_generator.py \"John Doe\" \"Jane Doe\" \"Gonna miss dinner\" \"I'm sick\" -s")
         print("\n\t2. As parameters in a function call")
         print("\tUsage: generate_excuse(user = \"USER\", recipient = \"RECIPIENT\", problem = \"INSERT PROBLEM HERE\", excuse = \"INSERT EXCUSE HERE\", send_text = BOOL)\n\te.g. generate_excuse(user = \"John Doe\", recipient = \"Jane Doe\", problem = \"Gonna miss dinner\", excuse = \"I'm sick\", send_text = True)")
