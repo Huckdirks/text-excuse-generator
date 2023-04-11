@@ -198,7 +198,7 @@ Either run the program without any arguments to manually input the information f
 
 **YOU HAVE TO INSTALL THE DEPENDENCIES & SETUP THE `.env` FILE BEFORE TRYING TO RUN THE PROGRAM!!!**
 
-Run `python3 text_excuse_generator.py` or `python3 text_excuse_generator.py [SENDER] [RECIPIENT] [PROBLEM] [EXCUSE] [--send_text_flag]` in the command line in the source directory.
+Run `python3 text_excuse_generator.py` or `python3 text_excuse_generator.py SENDER RECIPIENT PROBLEM EXCUSE [--send_text_flag]` in the command line in the source directory.
 
 More detailed instructions are in the [Uses](#uses) section.
 
