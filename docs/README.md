@@ -94,6 +94,8 @@ pip install text-excuse-generator
 To import the module into your python file, put this at the top of your file:
 ```python
 from text_excuse_generator.excuse_generator import *
+# or
+import text_excuse_generator.excuse_generator as teg # or whatever you want to call it
 ```
 Or you can import the individual functions.
 
