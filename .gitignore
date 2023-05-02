@@ -9,5 +9,5 @@ build/
 .DS_Store
 *.env
 setup.py
-pip_exporter.py
+pypi_uploader.py
 __init__.py

@@ -10,7 +10,7 @@ from os.path import dirname, join, isfile
 from sys import argv
 
 # Constants
-ENV_NAME = "personal_info.env"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
+ENV_NAME = ".env"  # CHANGE THIS TO YOUR ENVIRONMENT NAME (.env file)
 ENV_PATH = join(dirname(__file__), ENV_NAME)
 
 
@@ -71,7 +71,7 @@ def send_twilio_text(TO_PHONE_NUMBER: str, MESSAGE: str) -> None:
         return
     
     # Load the .env file
-    load_dotenv(ENV_PATH)
+    load_dotenv()
 
     print("Sending text...")
     # Twilio API
@@ -182,7 +182,7 @@ def generate_excuse(**kwargs) -> (str | None):
         return
     
     # Load the .env file
-    load_dotenv(ENV_PATH)
+    load_dotenv()
 
     to_phone_number = ""
     if (RECIPIENT[0] == '+' and RECIPIENT[1:].isnumeric()) and is_valid_number(parse(RECIPIENT)):   # Check if RECIPIENT is a phone number
