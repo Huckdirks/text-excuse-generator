@@ -1,1 +1,1 @@
-python-dotenv @ https://github.com/theskumar/python-dotenv @main
+python-dotenv @ https://github.com/theskumar/python-dotenv@main
