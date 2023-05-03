@@ -8,6 +8,6 @@ build/
 # Files
 .DS_Store
 *.env
-setup.py
+#setup.py
 pypi_uploader.py
 __init__.py

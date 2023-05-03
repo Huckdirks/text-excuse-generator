@@ -1,2 +1,0 @@
-#python-dotenv openai twilio phonenumbers
-python-dotenv @ https://github.com/theskumar/python-dotenv@main
